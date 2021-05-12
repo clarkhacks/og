@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import tw from "twin.macro";
 import { Field, Label } from "../components/Field";
 import { Layout } from "../components/Layout";
@@ -80,6 +80,7 @@ export const Viewer: React.FC = () => {
   const [config] = useConfig();
   const [layoutConfig] = useLayoutConfig();
   const [isCopied, copy] = useCopy();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const query = useMemo(() => {
     const searchParams = new URLSearchParams();
@@ -95,6 +96,8 @@ export const Viewer: React.FC = () => {
   const imageURL = useMemo(() => `/api/image?${query}`, [query]);
   const htmlURL = useMemo(() => `/api/html?${query}`, [query]);
 
+  useEffect(() => setIsLoaded(false), [imageURL]);
+
   return (
     <div tw="space-y-4 w-full col-span-2">
       <div
@@ -105,9 +108,15 @@ export const Viewer: React.FC = () => {
         ]}
       >
         <img
-          css={[tw`absolute inset-0 shadow-lg w-full`]}
+          css={[
+            tw`absolute inset-0 shadow-lg w-full`,
+            !isLoaded && {
+              filter: "blur(10px)",
+            },
+          ]}
           src={imageURL}
           alt={`OG Image for the ${config.layoutName} layout`}
+          onLoad={() => setIsLoaded(true)}
         />
       </div>
 
