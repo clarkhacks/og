@@ -8,12 +8,11 @@ const isHtmlDebug = process.env.OG_HTML_DEBUG === "true";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    const { config, layoutConfig } = parseRequest(req);
-    console.log("\n\n---");
+    const config = parseRequest(req);
+    console.log("\n\n--- /api/image");
     console.log("CONFIG", config);
-    console.log("LAYOUT CONFIG", layoutConfig);
 
-    const html = getHtml(config, layoutConfig);
+    const html = getHtml(config);
     if (isHtmlDebug) {
       res.setHeader("Content-Type", "text/html");
       res.end(html);

@@ -22,11 +22,11 @@ export const simpleLayout: ILayout = {
       font-size: 100px; 
     }
   `,
-  getBody: c => `
-    <div class="top">
-      <div class="emoji">${emojify("✨")}</div>
-      <div class="header">${gString(c, "Test")}</div>
-      <div class="emoji">${emojify("✨")}</div>
+  Component: ({ config }) => (
+    <div className="top">
+      <div className="emoji">${emojify("✨")}</div>
+      <div className="header">${gString(config, "Test")}</div>
+      <div className="emoji">${emojify("✨")}</div>
     </div>
-  `,
+  ),
 };

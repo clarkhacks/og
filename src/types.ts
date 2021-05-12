@@ -1,3 +1,5 @@
+import React from "react";
+
 export type FileType = "png" | "jpeg";
 
 export interface IConfig {
@@ -8,9 +10,15 @@ export interface IConfig {
 export interface ILayout {
   name: string;
   properties: ILayoutProperty[];
-  getCSS?: (c: ILayoutConfig & IConfig) => string;
-  getBody?: (c: ILayoutConfig & IConfig) => string;
+  getCSS?: GetCSSFn;
+  Component?: LayoutComponent;
 }
+
+export type LayoutComponent = React.ComponentType<{
+  config: IConfig & ILayoutConfig;
+}>;
+
+export type GetCSSFn = (c: ILayoutConfig & IConfig) => string;
 
 export type ILayoutProperty = BaseLayoutProperty &
   (

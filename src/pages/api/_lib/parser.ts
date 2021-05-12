@@ -1,14 +1,9 @@
 import { NextApiRequest } from "next";
 import { defaultConfig } from "../../../hooks/useConfig";
 import { getLayoutConfigFromQuery } from "../../../layouts";
-import { Theme, IConfig, ILayoutConfig, FileType } from "../../../types";
+import { IConfig, ILayoutConfig, FileType } from "../../../types";
 
-export const parseRequest = (
-  req: NextApiRequest,
-): {
-  config: IConfig;
-  layoutConfig: ILayoutConfig;
-} => {
+export const parseRequest = (req: NextApiRequest): IConfig & ILayoutConfig => {
   // const arr = (pathname || "/").slice(1).split(".");
   // let extension = "";
   // let text = "";
@@ -24,14 +19,9 @@ export const parseRequest = (
   const config: IConfig = {
     ...defaultConfig,
     ...req.query,
-    // fileType: extension as FileType,
   };
 
   const layoutConfig = getLayoutConfigFromQuery(config.layoutName, req.query);
-
-  if (Array.isArray(config.theme)) {
-    throw new Error("Expected a single theme");
-  }
 
   // const parsedRequest: ParsedRequest = {
   //   fileType: extension === "jpeg" ? extension : "png",
@@ -50,35 +40,35 @@ export const parseRequest = (
   // return parsedRequest;
 
   return {
-    config,
-    layoutConfig,
+    ...config,
+    ...layoutConfig,
   };
 };
 
-function getArray(stringOrArray: string[] | string | undefined): string[] {
-  if (typeof stringOrArray === "undefined") {
-    return [];
-  } else if (Array.isArray(stringOrArray)) {
-    return stringOrArray;
-  } else {
-    return [stringOrArray];
-  }
-}
+// function getArray(stringOrArray: string[] | string | undefined): string[] {
+//   if (typeof stringOrArray === "undefined") {
+//     return [];
+//   } else if (Array.isArray(stringOrArray)) {
+//     return stringOrArray;
+//   } else {
+//     return [stringOrArray];
+//   }
+// }
 
-function getDefaultImages(images: string[], theme: Theme): string[] {
-  const defaultImage =
-    theme === "light"
-      ? "https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg"
-      : "https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-white.svg";
+// function getDefaultImages(images: string[], theme: Theme): string[] {
+//   const defaultImage =
+//     theme === "light"
+//       ? "https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg"
+//       : "https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-white.svg";
 
-  if (!images || !images[0]) {
-    return [defaultImage];
-  }
-  if (
-    !images[0].startsWith("https://assets.vercel.com/") &&
-    !images[0].startsWith("https://assets.zeit.co/")
-  ) {
-    images[0] = defaultImage;
-  }
-  return images;
-}
+//   if (!images || !images[0]) {
+//     return [defaultImage];
+//   }
+//   if (
+//     !images[0].startsWith("https://assets.vercel.com/") &&
+//     !images[0].startsWith("https://assets.zeit.co/")
+//   ) {
+//     images[0] = defaultImage;
+//   }
+//   return images;
+// }
