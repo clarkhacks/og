@@ -1,4 +1,3 @@
-import { readFileSync } from "fs";
 import marked from "marked";
 import { sanitizeHtml } from "./sanitizer";
 import { ParsedRequest } from "./types";
@@ -7,19 +6,6 @@ const twOptions = { folder: "svg", ext: ".svg" };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 function getCss(theme: string, fontSize: string) {
-  console.log("DIRNAME", __dirname);
-
-  // const rglr = readFileSync(`../_fonts/Inter-Regular.woff2`).toString("base64");
-
-  // console.log("REGULAR", rglr);
-
-  // const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString(
-  //   "base64",
-  // );
-  // const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
-  //   "base64",
-  // );
-
   let background = "white";
   let foreground = "black";
   let radial = "lightgray";
