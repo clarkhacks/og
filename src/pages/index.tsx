@@ -1,14 +1,16 @@
 import { NextPage } from "next";
 import React, { useMemo } from "react";
-import "twin.macro";
 import { Field, Label } from "../components/Field";
 import { Layout } from "../components/Layout";
+import { Link } from "../components/Link";
 import { Select } from "../components/Select";
 import { useConfig } from "../hooks/useConfig";
 import { useIsMounted } from "../hooks/useIsMounted";
 import { useLayoutConfig } from "../hooks/useLayoutConfig";
 import { layouts } from "../layouts";
 import { FileType } from "../types";
+import tw from "twin.macro";
+import { useCopy } from "../hooks/useCopy";
 
 const Home: NextPage = () => {
   const isMounted = useIsMounted();
@@ -76,6 +78,7 @@ export const Config: React.FC = () => {
 export const Viewer: React.FC = () => {
   const [config] = useConfig();
   const [layoutConfig] = useLayoutConfig();
+  const [isCopied, copy] = useCopy();
 
   const query = useMemo(() => {
     const searchParams = new URLSearchParams();
@@ -89,6 +92,7 @@ export const Viewer: React.FC = () => {
   }, [config, layoutConfig]);
 
   const imageURL = useMemo(() => `/api/image?${query}`, [query]);
+  const htmlURL = useMemo(() => `/api/html?${query}`, [query]);
 
   return (
     <div tw="space-y-4 w-full col-span-2">
@@ -96,10 +100,24 @@ export const Viewer: React.FC = () => {
         <img tw="shadow-lg w-full" src={imageURL} alt="" />
       </div>
 
-      <div tw="break-all text-gray-600 text-right max-w-lg ml-auto">
-        {window.location.origin}
-        {imageURL}
+      <div className="buttons" tw="flex space-x-2 justify-end">
+        <button
+          css={[buttonStyles]}
+          onClick={() => copy(`${window.location.origin}${imageURL}`)}
+        >
+          {isCopied ? "Copied!" : "Copy Image URL"}
+        </button>
+        <Link css={[buttonStyles]} href={htmlURL} external>
+          Open HTML Page
+        </Link>
       </div>
     </div>
   );
 };
+
+const buttonStyles = tw`
+  flex items-center justify-center
+  px-2 py-1 w-40 h-9 rounded text-base text-white bg-accent font-medium
+  hover:bg-pink-500
+  focus:outline-none focus:ring-2 focus:ring-pink-500
+`;

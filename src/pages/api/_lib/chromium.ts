@@ -1,4 +1,5 @@
 import core from "puppeteer-core";
+import { OG_HEIGHT, OG_WIDTH } from "../../../constants";
 import { FileType } from "../../../types";
 import { getOptions } from "./options";
 let _page: core.Page | null;
@@ -19,7 +20,7 @@ export async function getScreenshot(
   isDev: boolean,
 ) {
   const page = await getPage(isDev);
-  await page.setViewport({ width: 2048, height: 1170 });
+  await page.setViewport({ width: OG_WIDTH, height: OG_HEIGHT });
   await page.setContent(html);
   const file = await page.screenshot({ type });
   return file;

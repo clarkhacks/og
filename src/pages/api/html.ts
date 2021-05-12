@@ -1,9 +1,6 @@
 import { NextApiHandler } from "next";
-import { getScreenshot } from "./_lib/chromium";
 import { parseRequest } from "./_lib/parser";
 import { getHtml } from "./_lib/template";
-
-const isDev = !process.env.RAILWAY_STATIC_URL;
 
 const handler: NextApiHandler = async (req, res) => {
   try {
@@ -12,15 +9,8 @@ const handler: NextApiHandler = async (req, res) => {
     console.log("CONFIG", config);
 
     const html = getHtml(config);
-    const { fileType } = config;
-    const file = await getScreenshot(html, fileType, isDev);
-    res.statusCode = 200;
-    res.setHeader("Content-Type", `image/${fileType}`);
-    res.setHeader(
-      "Cache-Control",
-      `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`,
-    );
-    res.end(file);
+    res.setHeader("Content-Type", "text/html");
+    res.end(html);
   } catch (e) {
     res.statusCode = 500;
     res.setHeader("Content-Type", "text/html");

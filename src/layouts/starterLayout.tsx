@@ -17,6 +17,7 @@ const getCSS: GetCSSFn = config => {
     justify-content: flex-end;
     background-color: ${colours.bg};
     color: ${colours.fg};
+    padding: 80px;
   }
 
     .rlogo {
@@ -32,6 +33,7 @@ const getCSS: GetCSSFn = config => {
     }
 
     h1 {
+      margin: 0;
       text-align: right;
       font-size: 1.5em;
       font-weight: 800;
@@ -41,14 +43,13 @@ const getCSS: GetCSSFn = config => {
     .dicon-wrapper {
       display: flex;
       justify-content: flex-end;
+      margin-bottom: 80px;
     }
 
     .dicon {
-      margin-left: auto;
       width: 300px;
       height: 300px;
       border-radius: 2px;
-      margin-bottom: 20px;
     }
 
     .em {
