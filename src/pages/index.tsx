@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   const isMounted = useIsMounted();
 
   return (
-    <main tw="px-6 max-w-6xl w-full mx-auto">
+    <main tw="px-6 pb-20 max-w-6xl w-full mx-auto">
       <header tw="text-center mt-20 mb-12 space-y-4">
         <h1 tw="text-5xl font-bold">Railway OG Image Generator</h1>
       </header>
@@ -29,9 +29,77 @@ const Home: NextPage = () => {
           <Viewer />
         </section>
       )}
+
+      <section tw="mt-12 grid gap-4 grid-cols-1 md:grid-cols-2">
+        <div>
+          <H2>What is This?</H2>
+          <P>
+            This service dynamically generates{" "}
+            <StyledLink href="https://ogp.me/">Open Graph</StyledLink> images to
+            be used in HTML meta tags.
+          </P>
+
+          <P>
+            <pre tw="pl-4 text-sm">{`<meta property="og:image" content="{URL to this site}" />`}</pre>
+          </P>
+
+          <P>
+            The design and implementation of this site is heavily inspired by a{" "}
+            <StyledLink href="https://github.com/vercel/og-image">
+              Vercel's OG image generator
+            </StyledLink>
+            . The main differences are
+            <ul tw="list-disc mt-4 pl-4">
+              <LI>Multiple configurable layouts</LI>
+              <LI>
+                Content of image written in JSX (as opposed to a template
+                string)
+              </LI>
+              <LI>
+                Headless Chrome configuration modified to deploy on Railway
+              </LI>
+            </ul>
+          </P>
+        </div>
+
+        <div>
+          <H2>Make it Your Own</H2>
+
+          <P>
+            This generator is{" "}
+            <StyledLink href="https://github.com/railwayapp/og-generator">
+              open source on GitHub
+            </StyledLink>{" "}
+            and has been designed to be easily customizable.
+          </P>
+
+          <P>
+            Get started by deploying to{" "}
+            <StyledLink href="https://railway.app">Railway</StyledLink> with
+            1-click.
+          </P>
+
+          <P>
+            <Link href="https://railway.app/new?template=https%3A%2F%2Fgithub.com%2Frailwayapp%2Fog-generator">
+              <img
+                src="https://railway.app/button.svg"
+                alt="Deploy on Railway"
+              />
+            </Link>
+          </P>
+        </div>
+      </section>
     </main>
   );
 };
+
+const H2 = tw.h2`font-bold text-3xl mb-4`;
+const P = tw.p`mb-4 max-w-lg leading-relaxed`;
+const LI = tw.li``;
+
+const StyledLink = tw(Link)`
+  underline text-accent hover:bg-accent hover:text-white hover:no-underline
+`;
 
 export default Home;
 
@@ -111,7 +179,7 @@ export const Viewer: React.FC = () => {
           css={[
             tw`absolute inset-0 shadow-lg w-full`,
             !isLoaded && {
-              filter: "blur(10px)",
+              filter: "blur(5px)",
             },
           ]}
           src={imageURL}
