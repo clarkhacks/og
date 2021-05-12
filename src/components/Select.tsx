@@ -46,7 +46,7 @@ export const Select = React.forwardRef<HTMLSelectElement, Props>(
             error
               ? tw`border-red-500 hover:border-red-500`
               : tw`border-gray-200`,
-            tw`focus:outline-none focus-visible:ring-2 focus-visible:ring-accent`,
+            tw`focus:outline-none focus:border-transparent focus-visible:ring-2 focus-visible:ring-accent`,
           ]}
           {...rest}
           onChange={e => {

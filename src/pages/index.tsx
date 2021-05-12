@@ -1,13 +1,12 @@
 import { NextPage } from "next";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import "twin.macro";
 import { Field, Label } from "../components/Field";
-import { Input } from "../components/Input";
 import { Layout } from "../components/Layout";
 import { Select } from "../components/Select";
+import { useConfig } from "../hooks/useConfig";
 import { useIsMounted } from "../hooks/useIsMounted";
 import { layouts } from "../layouts";
-import { useStore } from "../store";
 import { FileType, Theme } from "../types";
 
 const Home: NextPage = () => {
@@ -33,7 +32,7 @@ const Home: NextPage = () => {
 export default Home;
 
 export const Config: React.FC = () => {
-  const [{ theme, fileType, layout: layoutName }, setStore] = useStore();
+  const [{ theme, fileType, layoutName }, setConfig] = useConfig();
 
   const layout = useMemo(
     () => layouts.find(l => l.name === layoutName),
@@ -47,7 +46,7 @@ export const Config: React.FC = () => {
         <Select
           value={theme}
           options={[{ value: "light" }, { value: "dark" }]}
-          onChange={theme => setStore(s => ({ ...s, theme: theme as Theme }))}
+          onChange={theme => setConfig(c => ({ ...c, theme: theme as Theme }))}
         />
       </Field>
 
@@ -57,7 +56,7 @@ export const Config: React.FC = () => {
           value={fileType}
           options={[{ value: "png" }, { value: "jpeg" }]}
           onChange={fileType =>
-            setStore(s => ({ ...s, fileType: fileType as FileType }))
+            setConfig(c => ({ ...c, fileType: fileType as FileType }))
           }
         />
       </Field>
@@ -67,7 +66,7 @@ export const Config: React.FC = () => {
         <Select
           value={layoutName}
           options={layouts.map(l => ({ value: l.name }))}
-          onChange={layout => setStore(s => ({ ...s, layout }))}
+          onChange={layoutName => setConfig(c => ({ ...c, layoutName }))}
         />
       </Field>
 

@@ -4,25 +4,25 @@ export type FileType = "png" | "jpeg";
 export interface IConfig {
   theme: Theme;
   fileType: FileType;
+  layoutName: string;
 }
 
 export interface ILayout {
   name: string;
-  properties: LayoutProperty[];
+  properties: ILayoutProperty[];
 }
 
-export type LayoutProperty = BaseLayoutProperty &
+export type ILayoutProperty = BaseLayoutProperty &
   (
     | {
         type: "text";
-      }
-    | {
-        type: "array";
-        subProperty: LayoutProperty;
+        default?: string;
+        placeholder?: string;
       }
     | {
         type: "select";
         options: string[];
+        default?: string;
       }
   );
 
@@ -30,3 +30,6 @@ export interface BaseLayoutProperty {
   name: string;
   description?: string;
 }
+
+export type ILayoutValue = string | string[];
+export type ILayoutConfig = Record<string, ILayoutValue>;
