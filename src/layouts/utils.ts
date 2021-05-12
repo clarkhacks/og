@@ -12,6 +12,6 @@ export const gString = (
   name: string,
   defaultValue?: string,
 ): string => {
-  const value = layoutConfig[name];
-  return (Array.isArray(value) ? value.join(", ") : value) ?? defaultValue;
+  const value = layoutConfig[name] ?? defaultValue;
+  return Array.isArray(value) ? value.join(", ") : value;
 };

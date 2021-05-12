@@ -1,4 +1,11 @@
-export const colourThemes = {
+export interface ColourTheme {
+  fg: string;
+  bg: string;
+  gray: string;
+  pink: string;
+}
+
+export const colourThemes: Record<string, ColourTheme> = {
   light: {
     fg: "#131126",
     bg: "#ffffff",

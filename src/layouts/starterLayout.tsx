@@ -2,9 +2,11 @@ import { GetCSSFn, ILayout, LayoutComponent } from "../types";
 import { colourThemes } from "./colours";
 import { gString } from "./utils";
 
+const defaultTheme = "dark";
+
 const getCSS: GetCSSFn = config => {
-  const theme = gString(config, "theme", "light");
-  const colours = colourThemes[theme.toLowerCase()];
+  const theme = gString(config, "Theme", defaultTheme).toLowerCase();
+  const colours = colourThemes[theme];
 
   return `
   .top {
@@ -13,6 +15,8 @@ const getCSS: GetCSSFn = config => {
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
+    background-color: ${colours.bg};
+    color: ${colours.fg};
   }
 
     .rlogo {
@@ -54,8 +58,9 @@ const getCSS: GetCSSFn = config => {
 };
 
 const Component: LayoutComponent = ({ config }) => {
+  const theme = gString(config, "Theme", defaultTheme).toLowerCase();
   const rlogo =
-    config.theme === "dark"
+    theme === "dark"
       ? "https://railway.app/brand/logo-light.svg"
       : "https://railway.app/brand/logo-dark.svg";
 
@@ -88,6 +93,7 @@ export const starterLayout: ILayout = {
       name: "Theme",
       type: "select",
       options: ["Light", "Dark"],
+      default: defaultTheme,
     },
     {
       name: "Name",

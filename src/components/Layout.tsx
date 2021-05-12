@@ -42,7 +42,11 @@ export const LayoutProperty: React.FC<{
           onChange={e => setLayoutConfig({ [p.name]: e.target.value })}
         />
       ) : p.type === "select" ? (
-        <Select options={p.options.map(value => ({ value }))} />
+        <Select
+          options={p.options.map(value => ({ value }))}
+          value={(layoutConfig[p.name] as string) ?? ""}
+          onChange={value => setLayoutConfig({ [p.name]: value })}
+        />
       ) : null}
     </Field>
   );

@@ -23,7 +23,7 @@ const Home: NextPage = () => {
       {isMounted && (
         <section tw="grid gap-8 grid-cols-1 md:grid-cols-3">
           <Config />
-          <OGImage />
+          <Viewer />
         </section>
       )}
     </main>
@@ -73,7 +73,7 @@ export const Config: React.FC = () => {
   );
 };
 
-export const OGImage: React.FC = () => {
+export const Viewer: React.FC = () => {
   const [config] = useConfig();
   const [layoutConfig] = useLayoutConfig();
 
