@@ -22,10 +22,16 @@ export async function getOptions(isDev: boolean) {
     };
   } else {
     options = {
-      args: chrome.args,
-      executablePath: await chrome.executablePath,
-      headless: chrome.headless,
+      args: [],
+      executablePath: "/usr/bin/chromium-browser",
+      headless: true,
     };
+    // options = {
+    //   args: chrome.args,
+    //   executablePath: await chrome.executablePath,
+    //   headless: chrome.headless,
+    // };
   }
+
   return options;
 }

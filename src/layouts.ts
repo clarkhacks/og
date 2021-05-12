@@ -67,6 +67,15 @@ export const starterLayout: ILayout = {
     },
     { name: "URL", type: "text", placeholder: "GitHub repo URL" },
   ],
+  getCSS: () => `
+    pre {
+      font-size: 50px;
+      text-align: left;
+    }
+  `,
+  getBody: c => `
+    <pre>${JSON.stringify(c, null, 2)}</pre>
+  `,
 };
 
 export const layouts: ILayout[] = [simpleLayout, starterLayout];
