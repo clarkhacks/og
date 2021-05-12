@@ -1,19 +1,24 @@
-import { ILayout } from "../types";
+import { GetCSSFn, ILayout, LayoutComponent } from "../types";
 import { gString, Markdown } from "./utils";
 
-export const simpleLayout: ILayout = {
-  name: "Simple",
-  properties: [{ name: "Text", type: "text", default: "**Hello** _World_" }],
-  getCSS: () => {
-    return `
+const getCSS: GetCSSFn = config => {
+  return `
     body {
       font-size: 200px;
       color: white;
       background: linear-gradient(to bottom right, tomato, deeppink);
     }
   `;
-  },
-  Component: ({ config }) => (
-    <Markdown className="header">{gString(config, "Text")}</Markdown>
-  ),
+};
+
+const Component: LayoutComponent = ({ config }) => {
+  const text = gString(config, "Text");
+  return <Markdown className="header">{text}</Markdown>;
+};
+
+export const simpleLayout: ILayout = {
+  name: "Simple",
+  properties: [{ name: "Text", type: "text", default: "**Hello** _World_" }],
+  getCSS,
+  Component,
 };
