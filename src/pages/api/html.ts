@@ -5,7 +5,7 @@ import { getHtml } from "./_lib/template";
 const handler: NextApiHandler = async (req, res) => {
   try {
     const config = parseRequest(req);
-    console.log("\n\n--- /api/image");
+    console.log("\n\n--- /api/html");
     console.log("CONFIG", config);
 
     const html = getHtml(config);

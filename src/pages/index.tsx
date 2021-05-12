@@ -1,18 +1,17 @@
 import { NextPage } from "next";
 import React, { useMemo } from "react";
+import tw from "twin.macro";
 import { Field, Label } from "../components/Field";
 import { Layout } from "../components/Layout";
 import { Link } from "../components/Link";
 import { Select } from "../components/Select";
+import { OG_HEIGHT, OG_WIDTH } from "../constants";
 import { useConfig } from "../hooks/useConfig";
+import { useCopy } from "../hooks/useCopy";
 import { useIsMounted } from "../hooks/useIsMounted";
 import { useLayoutConfig } from "../hooks/useLayoutConfig";
 import { layouts } from "../layouts";
 import { FileType } from "../types";
-import tw from "twin.macro";
-import { useCopy } from "../hooks/useCopy";
-import Image from "next/image";
-import { OG_HEIGHT, OG_WIDTH } from "../constants";
 
 const Home: NextPage = () => {
   const isMounted = useIsMounted();
@@ -20,7 +19,7 @@ const Home: NextPage = () => {
   return (
     <main tw="px-6 max-w-6xl w-full mx-auto">
       <header tw="text-center mt-20 mb-12 space-y-4">
-        <h1 tw="text-4xl font-bold">Railway OG Image Generator</h1>
+        <h1 tw="text-5xl font-bold">Railway OG Image Generator</h1>
       </header>
 
       {/* We pull the state from local storage so need the app to be loaded in the browser */}

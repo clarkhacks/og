@@ -2,7 +2,7 @@ import { GetCSSFn, ILayout, LayoutComponent } from "../types";
 import { colourThemes } from "./colours";
 import { gString } from "./utils";
 
-const defaultTheme = "dark";
+const defaultTheme = "Dark";
 
 const getCSS: GetCSSFn = config => {
   const theme = gString(config, "Theme", defaultTheme).toLowerCase();
