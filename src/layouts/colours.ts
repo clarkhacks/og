@@ -15,7 +15,7 @@ export const colourThemes: Record<string, ColourTheme> = {
   dark: {
     fg: "#ffffff",
     bg: "#100f13",
-    gray: "dimgray",
+    gray: "#828282",
     pink: "#C049FF",
   },
 };

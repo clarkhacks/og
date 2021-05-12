@@ -1,4 +1,3 @@
-import chrome from "chrome-aws-lambda";
 const exePath =
   process.platform === "win32"
     ? "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
@@ -22,15 +21,10 @@ export async function getOptions(isDev: boolean) {
     };
   } else {
     options = {
-      args: ["--no-sandbox"],
+      args: ["--no-sandbox", "--font-render-hinting=none"],
       executablePath: "/usr/bin/chromium-browser",
       headless: true,
     };
-    // options = {
-    //   args: chrome.args,
-    //   executablePath: await chrome.executablePath,
-    //   headless: chrome.headless,
-    // };
   }
 
   return options;

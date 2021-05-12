@@ -28,10 +28,6 @@ const getCSS: GetCSSFn = config => {
       left: 60px;
     }
 
-    .content {
-      padding-right: 80px;
-    }
-
     h1 {
       margin: 0;
       text-align: right;
@@ -55,6 +51,13 @@ const getCSS: GetCSSFn = config => {
     .em {
       color: ${colours.pink};
     }
+
+    .url {
+      margin-top: 40px;
+      text-align: right;
+      font-size: 45px;
+      color: ${colours.gray};
+    }
     `;
 };
 
@@ -66,6 +69,7 @@ const Component: LayoutComponent = ({ config }) => {
       : "https://railway.app/brand/logo-dark.svg";
 
   const name = gString(config, "Name");
+  const url = gString(config, "URL");
 
   return (
     <div className="top">
@@ -82,6 +86,8 @@ const Component: LayoutComponent = ({ config }) => {
         <h1>
           Deploy <span className="em">{name}</span> on Railway
         </h1>
+
+        {url && <div className="url">{url}</div>}
       </div>
     </div>
   );
@@ -99,7 +105,7 @@ export const starterLayout: ILayout = {
     {
       name: "Name",
       type: "text",
-      default: "Cool Starter",
+      default: "BlitzJS",
       placeholder: "Starter title",
     },
     { name: "URL", type: "text", placeholder: "GitHub repo URL" },
