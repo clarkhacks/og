@@ -8,7 +8,6 @@
     "clean": "rm -rf .next yarn-error.log"
   },
   "dependencies": {
-    "chrome-aws-lambda": "9.1.0",
     "copy-to-clipboard": "^3.3.1",
     "marked": "2.0.3",
     "next": "10.2.0",
@@ -20,8 +19,7 @@
     "styled-components": "^5.3.0",
     "theme-custom-properties": "^1.0.0",
     "twemoji": "13.0.2",
-    "use-local-storage-state": "^9.0.2",
-    "zustand": "^3.5.1"
+    "use-local-storage-state": "^9.0.2"
   },
   "devDependencies": {
     "@types/marked": "2.0.2",
