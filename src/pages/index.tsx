@@ -33,7 +33,7 @@ const Home: NextPage = () => {
         </section>
       )}
 
-      <section tw="mt-12 grid gap-4 grid-cols-1 md:grid-cols-2">
+      <section tw="mt-12 grid gap-8 grid-cols-1 md:grid-cols-2">
         <div>
           <H2>What is This?</H2>
           <P>
@@ -43,7 +43,7 @@ const Home: NextPage = () => {
           </P>
 
           <P>
-            <pre tw="pl-4 text-sm">{`<meta property="og:image" content="{URL to this site}" />`}</pre>
+            <pre tw="pl-4 text-sm break-all overflow-hidden overflow-ellipsis">{`<meta property="og:image" content="{URL to this site}" />`}</pre>
           </P>
 
           <P>
