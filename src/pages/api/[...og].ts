@@ -3,19 +3,23 @@ import { getScreenshot } from "./_lib/chromium";
 import { parseRequest } from "./_lib/parser";
 import { getHtml } from "./_lib/template";
 
-const isDev = !process.env.AWS_REGION;
-const isHtmlDebug = process.env.OG_HTML_DEBUG === "1";
+const isDev = !process.env.RAILWAY_STATIC_URL;
+const isHtmlDebug = process.env.OG_HTML_DEBUG === "true";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    const parsedReq = parseRequest(req);
-    const html = getHtml(parsedReq);
+    const { config, layoutConfig } = parseRequest(req);
+    console.log("\n\n---");
+    console.log("CONFIG", config);
+    console.log("LAYOUT CONFIG", layoutConfig);
+
+    const html = getHtml(config, layoutConfig);
     if (isHtmlDebug) {
       res.setHeader("Content-Type", "text/html");
       res.end(html);
       return;
     }
-    const { fileType } = parsedReq;
+    const { fileType } = config;
     const file = await getScreenshot(html, fileType, isDev);
     res.statusCode = 200;
     res.setHeader("Content-Type", `image/${fileType}`);

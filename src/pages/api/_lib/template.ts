@@ -1,32 +1,28 @@
 import marked from "marked";
+import { colourThemes } from "../../../colours";
+import { layouts } from "../../../layouts";
+import { IConfig, ILayoutConfig, Theme } from "../../../types";
 import { sanitizeHtml } from "./sanitizer";
-import { ParsedRequest } from "./types";
-const twemoji = require("twemoji");
-const twOptions = { folder: "svg", ext: ".svg" };
-const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-function getCss(theme: string, fontSize: string) {
-  let background = "white";
-  let foreground = "black";
-  let radial = "lightgray";
+const getCommonCSS = (theme: Theme) => {
+  const colours = colourThemes[theme ?? "light"];
 
-  if (theme === "dark") {
-    background = "black";
-    foreground = "white";
-    radial = "dimgray";
-  }
+  console.log(colours);
+
   return `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
     body {
-        background: ${background};
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
+        background: ${colours.bg};
+        color: ${colours.fg};
         background-size: 100px 100px;
         height: 100vh;
         display: flex;
         text-align: center;
         align-items: center;
         justify-content: center;
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
     }
 
     code {
@@ -38,6 +34,10 @@ function getCss(theme: string, fontSize: string) {
 
     code:before, code:after {
         content: '\`';
+    }
+
+    h1 {
+        font-weight: 800;
     }
 
     .logo-wrapper {
@@ -71,15 +71,36 @@ function getCss(theme: string, fontSize: string) {
     
     .heading {
         font-family: 'Inter', sans-serif;
-        font-size: ${sanitizeHtml(fontSize)};
+        font-size: 100px;
         font-style: normal;
-        color: ${foreground};
+        color: ${colours.fg};
         line-height: 1.8;
     }`;
-}
+};
 
-export function getHtml(parsedReq: ParsedRequest) {
-  const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+export function getHtml(config: IConfig, layoutConfig: ILayoutConfig) {
+  //   const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+  const layout = layouts.find(l => l.name === config.layoutName);
+
+  return `<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">
+    <title>Generated Image</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        ${getCommonCSS(config.theme)}
+        ${layout?.getCSS != null ? layout.getCSS(layoutConfig) : ""}
+    </style>
+    <body>
+        ${
+          layout?.getBody != null
+            ? layout.getBody(layoutConfig)
+            : `<h1 style="font-size: 100px">Layout body not implemented</h1>`
+        }
+    </body>
+</html>`;
+
+  /*
   return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -107,6 +128,7 @@ export function getHtml(parsedReq: ParsedRequest) {
         </div>
     </body>
 </html>`;
+*/
 }
 
 function getImage(src: string, width = "auto", height = "225") {

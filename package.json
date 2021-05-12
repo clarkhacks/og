@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start --port ${PORT-3000}",
-    "clean": "rm -rf .next"
+    "clean": "rm -rf .next yarn-error.log"
   },
   "dependencies": {
     "chrome-aws-lambda": "9.1.0",
@@ -17,6 +17,7 @@
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
     "styled-components": "^5.3.0",
+    "theme-custom-properties": "^1.0.0",
     "twemoji": "13.0.2",
     "use-local-storage-state": "^9.0.2",
     "zustand": "^3.5.1"

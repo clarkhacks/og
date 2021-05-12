@@ -2824,6 +2824,11 @@ tar-stream@^2.1.4:
     inherits "^2.0.3"
     readable-stream "^3.1.1"
 
+theme-custom-properties@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/theme-custom-properties/-/theme-custom-properties-1.0.0.tgz#b3d84f90bfd35cd45d539bb2e1a23af4440a78d1"
+  integrity sha512-KewE36NjGNA+p9mMOtQMt22f7qEXwHIW49OS/cu+kWkmY4Nfo1cTbRWchLHWjQZzrgMvRMrinc3E3BkW/a9Z7w==
+
 through@^2.3.8:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"

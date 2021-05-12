@@ -10,6 +10,8 @@ export interface IConfig {
 export interface ILayout {
   name: string;
   properties: ILayoutProperty[];
+  getCSS?: (layoutConfig: ILayoutConfig) => string;
+  getBody?: (layoutConfig: ILayoutConfig) => string;
 }
 
 export type ILayoutProperty = BaseLayoutProperty &
@@ -33,3 +35,9 @@ export interface BaseLayoutProperty {
 
 export type ILayoutValue = string | string[];
 export type ILayoutConfig = Record<string, ILayoutValue>;
+
+export interface Colours {
+  fg: string;
+  bg: string;
+  gray: string;
+}

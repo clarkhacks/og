@@ -1,6 +1,6 @@
 import core from "puppeteer-core";
+import { FileType } from "../../../types";
 import { getOptions } from "./options";
-import { FileType } from "./types";
 let _page: core.Page | null;
 
 async function getPage(isDev: boolean) {

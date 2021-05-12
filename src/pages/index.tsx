@@ -6,6 +6,7 @@ import { Layout } from "../components/Layout";
 import { Select } from "../components/Select";
 import { useConfig } from "../hooks/useConfig";
 import { useIsMounted } from "../hooks/useIsMounted";
+import { useLayoutConfig } from "../hooks/useLayoutConfig";
 import { layouts } from "../layouts";
 import { FileType, Theme } from "../types";
 
@@ -40,7 +41,7 @@ export const Config: React.FC = () => {
   );
 
   return (
-    <div tw="space-y-4">
+    <div tw="space-y-4 md:mt-8">
       <Field>
         <Label>Theme</Label>
         <Select
@@ -82,9 +83,25 @@ export const Config: React.FC = () => {
 };
 
 export const OGImage: React.FC = () => {
+  const [config] = useConfig();
+  const [layoutConfig] = useLayoutConfig();
+
+  const query = useMemo(() => {
+    const searchParams = new URLSearchParams();
+    for (const [key, value] of Object.entries({ ...config, ...layoutConfig })) {
+      if (value != null) {
+        searchParams.set(key, value);
+      }
+    }
+
+    return searchParams.toString();
+  }, [config, layoutConfig]);
+
+  const imageURL = useMemo(() => `/api/image?${query}`, [query]);
+
   return (
     <div className="image-wrapper" tw="col-span-2">
-      <img tw="shadow-lg w-full" src="/api/boooop" alt="" />
+      <img tw="shadow-lg w-full" src={imageURL} alt="" />
     </div>
   );
 };
