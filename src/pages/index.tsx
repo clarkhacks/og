@@ -98,13 +98,15 @@ export const Viewer: React.FC = () => {
 
   return (
     <div tw="space-y-4 w-full col-span-2">
-      <div className="image-wrapper">
-        <Image
-          width={OG_WIDTH}
-          height={OG_HEIGHT}
-          quality={100}
-          priority
-          tw="shadow-lg w-full"
+      <div
+        className="image-wrapper"
+        css={[
+          tw`w-full relative`,
+          { paddingTop: `${(OG_HEIGHT / OG_WIDTH) * 100}%` },
+        ]}
+      >
+        <img
+          css={[tw`absolute inset-0 shadow-lg w-full`]}
           src={imageURL}
           alt={`OG Image for the ${config.layoutName} layout`}
         />
