@@ -11,6 +11,8 @@ import { layouts } from "../layouts";
 import { FileType } from "../types";
 import tw from "twin.macro";
 import { useCopy } from "../hooks/useCopy";
+import Image from "next/image";
+import { OG_HEIGHT, OG_WIDTH } from "../constants";
 
 const Home: NextPage = () => {
   const isMounted = useIsMounted();
@@ -23,7 +25,7 @@ const Home: NextPage = () => {
 
       {/* We pull the state from local storage so need the app to be loaded in the browser */}
       {isMounted && (
-        <section tw="grid gap-8 grid-cols-1 md:grid-cols-3">
+        <section tw="grid gap-y-8 md:gap-8 grid-cols-1 md:grid-cols-3">
           <Config />
           <Viewer />
         </section>
@@ -97,7 +99,15 @@ export const Viewer: React.FC = () => {
   return (
     <div tw="space-y-4 w-full col-span-2">
       <div className="image-wrapper">
-        <img tw="shadow-lg w-full" src={imageURL} alt="" />
+        <Image
+          width={OG_WIDTH}
+          height={OG_HEIGHT}
+          quality={100}
+          priority
+          tw="shadow-lg w-full"
+          src={imageURL}
+          alt={`OG Image for the ${config.layoutName} layout`}
+        />
       </div>
 
       <div className="buttons" tw="flex space-x-2 justify-end">
