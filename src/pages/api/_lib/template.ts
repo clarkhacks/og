@@ -1,13 +1,9 @@
-import marked from "marked";
-import { colourThemes } from "../../../colours";
-import { layouts } from "../../../layouts";
+import { colourThemes, layouts } from "../../../layouts";
 import { IConfig, ILayoutConfig, Theme } from "../../../types";
 import { sanitizeHtml } from "./sanitizer";
 
 const getCommonCSS = (theme: Theme) => {
   const colours = colourThemes[theme ?? "light"];
-
-  console.log(colours);
 
   return `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
@@ -34,10 +30,6 @@ const getCommonCSS = (theme: Theme) => {
 
     code:before, code:after {
         content: '\`';
-    }
-
-    h1 {
-        font-weight: 800;
     }
 
     .logo-wrapper {
@@ -95,7 +87,7 @@ export function getHtml(config: IConfig, layoutConfig: ILayoutConfig) {
         ${
           layout?.getBody != null
             ? layout.getBody(layoutConfig)
-            : `<h1 style="font-size: 100px">Layout body not implemented</h1>`
+            : `<h1 style="font-size: 100px">${config.layoutName} layout not implemented</h1>`
         }
     </body>
 </html>`;

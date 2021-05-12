@@ -1,22 +1,53 @@
-import { ILayout, ILayoutConfig } from "./types";
+import { Colours, ILayout, ILayoutConfig, Theme } from "./types";
 import twemoji from "twemoji";
+import marked from "marked";
 
 const twOptions = { folder: "svg", ext: ".svg" };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
+export const colourThemes: Record<Theme, Colours> = {
+  light: {
+    fg: "black",
+    bg: "white",
+    gray: "dimgray",
+  },
+  dark: {
+    fg: "white",
+    bg: "black",
+    gray: "dimgray",
+  },
+};
+
 const gString = (layoutConfig: ILayoutConfig, name: string): string => {
   const value = layoutConfig[name];
-  return Array.isArray(value) ? value.join(", ") : value;
+  return Array.isArray(value) ? value.join(", ") : marked(value);
 };
 
 export const simpleLayout: ILayout = {
   name: "Simple",
-  properties: [{ name: "Test", type: "text" }],
+  properties: [{ name: "Test", type: "text", default: "**Hello** _World_" }],
   getCSS: () => `
-    h1 { font-size: 100px; }
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .emoji {
+      font-size: 100px; 
+      margin: 0 80px;
+    }
+
+    .header { 
+      font-size: 100px; 
+    }
   `,
   getBody: c => `
-    <h1>${emojify("✨")} ${gString(c, "Test")} ${emojify("✨")}</h1>
+    <div>
+      <div class="emoji">${emojify("✨")}</div>
+      <div class="header">${gString(c, "Test")}</div>
+      <div class="emoji">${emojify("✨")}</div>
+    </div>
   `,
 };
 
