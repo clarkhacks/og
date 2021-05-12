@@ -8,7 +8,7 @@ import { useConfig } from "../hooks/useConfig";
 import { useIsMounted } from "../hooks/useIsMounted";
 import { useLayoutConfig } from "../hooks/useLayoutConfig";
 import { layouts } from "../layouts";
-import { FileType, Theme } from "../types";
+import { FileType } from "../types";
 
 const Home: NextPage = () => {
   const isMounted = useIsMounted();
@@ -33,7 +33,7 @@ const Home: NextPage = () => {
 export default Home;
 
 export const Config: React.FC = () => {
-  const [{ theme, fileType, layoutName }, setConfig] = useConfig();
+  const [{ fileType, layoutName }, setConfig] = useConfig();
 
   const layout = useMemo(
     () => layouts.find(l => l.name === layoutName),
@@ -42,15 +42,6 @@ export const Config: React.FC = () => {
 
   return (
     <div tw="space-y-4 md:mt-8">
-      <Field>
-        <Label>Theme</Label>
-        <Select
-          value={theme}
-          options={[{ value: "light" }, { value: "dark" }]}
-          onChange={theme => setConfig(c => ({ ...c, theme: theme as Theme }))}
-        />
-      </Field>
-
       <Field>
         <Label>File type</Label>
         <Select
@@ -100,8 +91,15 @@ export const OGImage: React.FC = () => {
   const imageURL = useMemo(() => `/api/image?${query}`, [query]);
 
   return (
-    <div className="image-wrapper" tw="col-span-2">
-      <img tw="shadow-lg w-full" src={imageURL} alt="" />
+    <div tw="space-y-4 w-full col-span-2">
+      <div className="image-wrapper">
+        <img tw="shadow-lg w-full" src={imageURL} alt="" />
+      </div>
+
+      <div tw="break-all text-gray-600 text-right max-w-lg ml-auto">
+        {window.location.origin}
+        {imageURL}
+      </div>
     </div>
   );
 };

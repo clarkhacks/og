@@ -22,7 +22,7 @@ export async function getOptions(isDev: boolean) {
     };
   } else {
     options = {
-      args: [],
+      args: ["--no-sandbox"],
       executablePath: "/usr/bin/chromium-browser",
       headless: true,
     };

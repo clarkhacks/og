@@ -1,8 +1,6 @@
-export type Theme = "light" | "dark";
 export type FileType = "png" | "jpeg";
 
 export interface IConfig {
-  theme: Theme;
   fileType: FileType;
   layoutName: string;
 }
@@ -10,8 +8,8 @@ export interface IConfig {
 export interface ILayout {
   name: string;
   properties: ILayoutProperty[];
-  getCSS?: (layoutConfig: ILayoutConfig) => string;
-  getBody?: (layoutConfig: ILayoutConfig) => string;
+  getCSS?: (c: ILayoutConfig & IConfig) => string;
+  getBody?: (c: ILayoutConfig & IConfig) => string;
 }
 
 export type ILayoutProperty = BaseLayoutProperty &
@@ -40,4 +38,5 @@ export interface Colours {
   fg: string;
   bg: string;
   gray: string;
+  pink: string;
 }

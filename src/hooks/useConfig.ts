@@ -1,11 +1,10 @@
 import { createLocalStorageStateHook } from "use-local-storage-state";
-import { simpleLayout } from "../layouts";
+import { layouts } from "../layouts";
 import { IConfig } from "../types";
 
 export const defaultConfig: IConfig = {
-  theme: "light",
   fileType: "png",
-  layoutName: simpleLayout.name,
+  layoutName: layouts[0].name,
 };
 
 export const useConfig = createLocalStorageStateHook<IConfig>(
