@@ -75,6 +75,12 @@ export const docsLayout: ILayout = {
   name: "Docs",
   properties: [
     {
+      name: "Theme",
+      type: "select",
+      options: ["Light", "Dark"],
+      default: defaultTheme,
+    },
+    {
       name: "Page",
       type: "text",
       default: "Getting Started",

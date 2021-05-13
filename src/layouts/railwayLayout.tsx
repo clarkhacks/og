@@ -50,6 +50,12 @@ export const railwayLayout: ILayout = {
   name: "Railway",
   properties: [
     {
+      name: "Theme",
+      type: "select",
+      options: ["Light", "Dark"],
+      default: defaultTheme,
+    },
+    {
       name: "Title",
       type: "text",
       default: "Build Apps <br /> Not Infrastructure",
