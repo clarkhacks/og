@@ -30,13 +30,15 @@ export const Emoji: React.FC<{ children: string; className?: string }> = ({
   />
 );
 
-export const Markdown: React.FC<{ children: string; className?: string }> = ({
-  children,
-  ...props
-}) => (
+export const Markdown: React.FC<{
+  children: string;
+  className?: string;
+  style?: React.CSSProperties;
+}> = ({ children, style, ...props }) => (
   <div
     className={`markdown ${props.className}`}
     dangerouslySetInnerHTML={{ __html: mdToHTML(children) }}
+    style={style}
   />
 );
 

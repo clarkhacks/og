@@ -33,7 +33,7 @@ const Home: NextPage = () => {
         </section>
       )}
 
-      <section tw="mt-12 grid gap-8 grid-cols-1 md:grid-cols-2">
+      <section tw="mt-16 grid gap-8 grid-cols-1 md:grid-cols-2">
         <div>
           <H2>What is This?</H2>
           <P>
