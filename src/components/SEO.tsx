@@ -12,7 +12,10 @@ export interface Props extends NextSeoProps {
 const title = "Railway OG Image Generator";
 export const url = "";
 const description = "Service that generates dynamic OG images for railway.app";
-const image = "";
+
+// Generate OG image for itself
+const image =
+  "https://og.railway.app/api/image?fileType=png&layoutName=Railway&Theme=Dark&Title=Open+Graph+%3Cbr+%2F%3E+Image+Generator&Sub+Title=og.railway.app";
 
 const config: DefaultSeoProps = {
   title,
@@ -21,7 +24,7 @@ const config: DefaultSeoProps = {
     type: "website",
     url,
     site_name: title,
-    images: [{ url: image, width: 1200, height: 628 }],
+    images: [{ url: image }],
   },
   twitter: {
     handle: "@Railway_App",
