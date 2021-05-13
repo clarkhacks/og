@@ -2,6 +2,7 @@ import twemoji from "twemoji";
 import marked from "marked";
 import { ILayoutConfig } from "../types";
 import React from "react";
+import { defaultTheme } from "./colours";
 
 export const emojify = (text: string): string =>
   twemoji.parse(text, {
@@ -38,3 +39,22 @@ export const Markdown: React.FC<{ children: string; className?: string }> = ({
     dangerouslySetInnerHTML={{ __html: mdToHTML(children) }}
   />
 );
+
+export const RLogo: React.FC<{
+  config: ILayoutConfig;
+  style?: React.CSSProperties;
+}> = ({ config, style }) => {
+  const theme = gString(config, "Theme", defaultTheme).toLowerCase();
+  const rlogo =
+    theme === "dark"
+      ? "https://railway.app/brand/logo-light.svg"
+      : "https://railway.app/brand/logo-dark.svg";
+
+  return (
+    <img
+      src={rlogo}
+      className="rlogo"
+      style={{ width: 200, height: 200, ...style }}
+    />
+  );
+};

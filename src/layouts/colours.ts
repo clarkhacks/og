@@ -5,6 +5,8 @@ export interface ColourTheme {
   pink: string;
 }
 
+export const defaultTheme = "Dark";
+
 export const colourThemes: Record<string, ColourTheme> = {
   light: {
     fg: "#131126",

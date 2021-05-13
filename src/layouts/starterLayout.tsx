@@ -1,8 +1,6 @@
 import { GetCSSFn, ILayout, LayoutComponent } from "../types";
-import { colourThemes } from "./colours";
-import { gString } from "./utils";
-
-const defaultTheme = "Dark";
+import { colourThemes, defaultTheme } from "./colours";
+import { gString, RLogo } from "./utils";
 
 const getCSS: GetCSSFn = config => {
   const theme = gString(config, "Theme", defaultTheme).toLowerCase();
@@ -21,8 +19,6 @@ const getCSS: GetCSSFn = config => {
   }
 
     .rlogo {
-      width: 200px;
-      height: 200px;
       position: absolute;
       top: 60px;
       left: 60px;
@@ -62,18 +58,12 @@ const getCSS: GetCSSFn = config => {
 };
 
 const Component: LayoutComponent = ({ config }) => {
-  const theme = gString(config, "Theme", defaultTheme).toLowerCase();
-  const rlogo =
-    theme === "dark"
-      ? "https://railway.app/brand/logo-light.svg"
-      : "https://railway.app/brand/logo-dark.svg";
-
   const name = gString(config, "Name");
   const url = gString(config, "URL");
 
   return (
     <div className="top">
-      <img src={rlogo} className="rlogo" />
+      <RLogo config={config} />
 
       <div className="content">
         <div className="dicon-wrapper">
