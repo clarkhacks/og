@@ -1,68 +1,92 @@
-<a href="https://vercel.com/new/project?template=vercel/og-image"><img width="128" src="https://vercel.com/button" align="right"></a>
+# Railway OG Image Generator
 
-# [Open Graph Image as a Service](https://og-image.vercel.app)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https%3A%2F%2Fgithub.com%2Frailwayapp%2Fog-generator)
 
-<a href="https://twitter.com/vercel">
-    <img align="right" src="https://og-image.vercel.app/tweet.png" height="300" />
-</a>
+Service that dynamically generates [Open Graph](https://ogp.me/) images for [Railway starters](https://railway.app/starters) that looks something like
 
-Serverless service that generates dynamic Open Graph images that you can embed in your `<meta>` tags.
+<img width="600" src="https://og.railway.app/api/image?fileType=png&layoutName=Starter&Theme=Dark&Name=BlitzJS" />
 
-For each keystroke, headless chromium is used to render an HTML page and take a screenshot of the result which gets cached.
+# 🙌 Acknowledgement
 
-See the image embedded in the tweet for a real use case.
+Credit where credit is due. This started as a forked repo from [Vercel's OG image generator](https://github.com/vercel/og-image). The main differences are
 
+- Multiple configurable layouts
+- Content of image written in JSX (as opposed to a template string)
+- Headless Chrome configuration modified to deploy on Railway
 
-## What is an Open Graph Image?
+# ✨ How To Use
 
-Have you ever posted a hyperlink to Twitter, Facebook, or Slack and seen an image popup?
-How did your social network know how to "unfurl" the URL and get an image?
-The answer is in your `<head>`.
-
-The [Open Graph protocol](http://ogp.me) says you can put a `<meta>` tag in the `<head>` of a webpage to define this image.
-
-It looks like the following:
+Use the generated image URL in the `<head>` of your HTML document as the og:image meta property
 
 ```html
-<head>
-  <title>Title</title>
-  <meta property="og:image" content="http://example.com/logo.jpg" />
-</head>
+  <meta property="og:image" content="https://og.railway.app/api/image?fileType=png&layoutName=Simple&Text=**Hello**+_World_" />
 ```
 
-## Why use this service?
+Whenever this image is requested (e.g. in link previews) the image will be generated on demand.
 
-The short answer is that it would take a long time to painstakingly design an image for every single blog post and every single documentation page. And we don't want the exact same image for every blog post because that wouldn't make the article stand out when it was shared to Twitter. 
+# 🧐 How It Works
 
-That's where `og-image.vercel.app` comes in. We can simply pass the title of our blog post to our generator service and it will generate the image for us on the fly!
+Images are generated through the `/api/image` route. When you hit this route the following happens
+- Query params are parsed
+- Layout is looked up in list of layouts using the `layoutName` query param
+- `layout.getCSS` called with all query params
+- `layout.Component` is rendered with all query params as `config` prop
+- HTML page built, rendered with Puppeteer, and screenshot
+- Screenshot returned with a long cache max age
 
-It looks like the following:
+## Layouts
 
-```html
-<head>
-  <title>Hello World</title>
-  <meta property="og:image" content="https://og-image.vercel.app/Hello%20World.png" />
-</head>
+This service can generate images using multiple _layouts_. A layout is defined as a
+- Collection of properties that are user configurable. The UI for these properties is auto genearted
+- Function that takes in layout config and returns CSS needed to render
+- A React component that takes in layout config as a prop
+
+For example, the "Simple" layout on [og.railway.app](https://og.railway.app) is defined as
+
+```tsx
+import { GetCSSFn, ILayout, LayoutComponent } from "../types";
+import { gString, Markdown } from "./utils";
+
+const getCSS: GetCSSFn = config => {
+  return `
+    body {
+      font-size: 200px;
+      color: white;
+      background: linear-gradient(to bottom right, tomato, deeppink);
+    }
+  `;
+};
+
+const Component: LayoutComponent = ({ config }) => {
+  const text = gString(config, "Text");
+  return <Markdown className="header">{text}</Markdown>;
+};
+
+export const simpleLayout: ILayout = {
+  name: "Simple",
+  properties: [{ name: "Text", type: "text", default: "**Hello** _World_" }],
+  getCSS,
+  Component,
+};
 ```
 
-Now try changing the text `Hello%20World` to the title of your choosing and watch the magic happen ✨
+This will render as
 
-## Deploy your own
+![image](https://user-images.githubusercontent.com/3044853/118061050-0868c300-b349-11eb-8ac1-0b0af7d0dc9a.png)
 
-You'll want to fork this repository and deploy your own image generator.
+# 🚀 Development
 
-1. Click the fork button at the top right of GitHub
-2. Clone the repo to your local machine with `git clone URL_OF_FORKED_REPO_HERE`
-3. Change directory with `cd og-image`
-4. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/vercel/og-image/blob/main/CONTRIBUTING.md) for more info)
-5. Remove all configuration inside `vercel.json` besides `rewrites`
-6. Run locally with `vercel dev` and visit [localhost:3000](http://localhost:3000)  (if nothing happens, run `npm install -g vercel`)
-7. Deploy to the cloud by running `vercel` and you'll get a unique URL
-8. Setup [GitHub](https://vercel.com/github) to auto-deploy on push
+You can fork this repo or [deploy to Railway](https://railway.app/new?template=https%3A%2F%2Fgithub.com%2Frailwayapp%2Fog-generator) to make it your own, customize, and use in your own projects.
 
-Once you have an image generator that sparks joy, you can setup [automatic GitHub](https://vercel.com/github) deployments so that pushing to master will deploy to production! 🚀
+The frontend is a [NextJS](https://nextjs.org) site and the image generation happens in an API route.
 
-## Authors
+```
+# Start local development server
+yarn dev
 
-- Steven ([@styfle](https://twitter.com/styfle)) - [Vercel](https://vercel.com)
-- Evil Rabbit ([@evilrabbit](https://twitter.com/evilrabbit_)) - [Vercel](https://vercel.com)
+# Build for production
+yarn build
+
+# Start in production
+yarn start
+```
