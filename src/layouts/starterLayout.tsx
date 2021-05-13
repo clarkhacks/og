@@ -64,6 +64,7 @@ const Component: LayoutComponent = ({ config }) => {
   const iconURL = `https://devicons.railway.app/${name}?variant=${
     theme === "light" ? "dark" : "light"
   }`;
+  const hideIcon = gString(config, "Icon") === "Hide";
 
   console.log({ iconURL });
 
@@ -72,9 +73,11 @@ const Component: LayoutComponent = ({ config }) => {
       <RLogo config={config} />
 
       <div className="content">
-        <div className="dicon-wrapper">
-          <img className="dicon" src={iconURL} />
-        </div>
+        {!hideIcon && (
+          <div className="dicon-wrapper">
+            <img className="dicon" src={iconURL} />
+          </div>
+        )}
 
         <h1>
           Deploy <span className="em">{name}</span> on Railway
@@ -102,6 +105,12 @@ export const starterLayout: ILayout = {
       placeholder: "Starter title",
     },
     { name: "URL", type: "text", placeholder: "GitHub repo URL" },
+    {
+      name: "Icon",
+      type: "select",
+      options: ["Show", "Hide"],
+      default: "Show",
+    },
   ],
   getCSS,
   Component,
