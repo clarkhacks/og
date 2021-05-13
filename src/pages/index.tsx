@@ -47,7 +47,7 @@ const Home: NextPage = () => {
           </P>
 
           <P>
-            The design and implementation of this site is heavily inspired by a{" "}
+            The design and implementation of this site is heavily inspired by{" "}
             <StyledLink href="https://github.com/vercel/og-image">
               Vercel's OG image generator
             </StyledLink>
