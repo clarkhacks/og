@@ -58,8 +58,14 @@ const getCSS: GetCSSFn = config => {
 };
 
 const Component: LayoutComponent = ({ config }) => {
+  const theme = gString(config, "Theme", defaultTheme).toLowerCase();
   const name = gString(config, "Name");
   const url = gString(config, "URL");
+  const iconURL = `https://devicons.railway.app/${name}?variant=${
+    theme === "light" ? "dark" : "light"
+  }`;
+
+  console.log({ iconURL });
 
   return (
     <div className="top">
@@ -67,10 +73,7 @@ const Component: LayoutComponent = ({ config }) => {
 
       <div className="content">
         <div className="dicon-wrapper">
-          <img
-            className="dicon"
-            src={`https://devicons-production.up.railway.app/${name}`}
-          />
+          <img className="dicon" src={iconURL} />
         </div>
 
         <h1>
