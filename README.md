@@ -59,7 +59,7 @@ const getCSS: GetCSSFn = config => {
 
 const Component: LayoutComponent = ({ config }) => {
   const text = gString(config, "Text");
-  return <Markdown className="header">{text}</Markdown>;
+  return <h1>{text}</h1>;
 };
 
 export const simpleLayout: ILayout = {
