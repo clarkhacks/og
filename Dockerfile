@@ -1,5 +1,8 @@
 FROM zenika/alpine-chrome:with-node
 
+ARG NEXT_PUBLIC_FATHOM_CODE
+ARG NEXT_PUBLIC_SITE_URL
+
 # Create app directory
 WORKDIR /usr/src/app
 
