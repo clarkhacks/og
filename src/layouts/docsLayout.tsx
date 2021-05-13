@@ -46,7 +46,7 @@ const Component: LayoutComponent = ({ config }) => {
 
       <Markdown
         style={{
-          fontSize: 150,
+          fontSize: 160,
           color: colours.pink,
           fontWeight: 800,
           marginTop: 20,
@@ -88,7 +88,6 @@ export const docsLayout: ILayout = {
     {
       name: "URL",
       type: "text",
-      default: "docs.railway.app/getting-started",
     },
   ],
   getCSS,
