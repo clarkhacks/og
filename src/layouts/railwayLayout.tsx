@@ -59,11 +59,13 @@ export const railwayLayout: ILayout = {
       name: "Title",
       type: "text",
       default: "Build Apps <br /> Not Infrastructure",
+      placeholder: "Big text",
     },
     {
       name: "Sub Title",
       type: "text",
       default: "Welcome to the Anywhere Cloud",
+      placeholder: "Smaller text",
     },
   ],
   getCSS,

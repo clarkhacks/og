@@ -104,7 +104,11 @@ export const starterLayout: ILayout = {
       default: "BlitzJS",
       placeholder: "Starter title",
     },
-    { name: "URL", type: "text", placeholder: "GitHub repo URL" },
+    {
+      name: "URL",
+      type: "text",
+      placeholder: "github.com/railwayapp/starters",
+    },
     {
       name: "Icon",
       type: "select",

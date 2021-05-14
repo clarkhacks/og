@@ -84,10 +84,12 @@ export const docsLayout: ILayout = {
       name: "Page",
       type: "text",
       default: "Getting Started",
+      placeholder: "Getting Started",
     },
     {
       name: "URL",
       type: "text",
+      placeholder: "docs.railway.app/getting-started",
     },
   ],
   getCSS,
