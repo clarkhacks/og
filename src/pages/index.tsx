@@ -8,6 +8,7 @@ import { Select } from "../components/Select";
 import { OG_HEIGHT, OG_WIDTH } from "../constants";
 import { useConfig } from "../hooks/useConfig";
 import { useCopy } from "../hooks/useCopy";
+import { useDebouncedValue } from "../hooks/useDebouncedValue";
 import { useIsMounted } from "../hooks/useIsMounted";
 import { useLayoutConfig } from "../hooks/useLayoutConfig";
 import { layouts } from "../layouts";
@@ -151,7 +152,7 @@ export const Viewer: React.FC = () => {
   const [config] = useConfig();
   const [layoutConfig] = useLayoutConfig();
   const [isCopied, copy] = useCopy();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
 
   const query = useMemo(() => {
     const searchParams = new URLSearchParams();
@@ -167,7 +168,8 @@ export const Viewer: React.FC = () => {
   const imageURL = useMemo(() => `/api/image?${query}`, [query]);
   const htmlURL = useMemo(() => `/api/html?${query}`, [query]);
 
-  useEffect(() => setIsLoaded(false), [imageURL]);
+  const debouncedImageURL = useDebouncedValue(imageURL, 200);
+  useEffect(() => setIsLoaded(false), [debouncedImageURL]);
 
   return (
     <div tw="space-y-4 w-full col-span-2">
@@ -185,7 +187,7 @@ export const Viewer: React.FC = () => {
               filter: "blur(5px)",
             },
           ]}
-          src={imageURL}
+          src={debouncedImageURL}
           alt={`OG Image for the ${config.layoutName} layout`}
           onLoad={() => setIsLoaded(true)}
         />
