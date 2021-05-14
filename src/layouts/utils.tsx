@@ -14,10 +14,14 @@ export const mdToHTML = (text: string): string => marked(text);
 export const gString = (
   layoutConfig: ILayoutConfig,
   name: string,
-  defaultValue?: string,
+  defaultValue: string = "",
 ): string => {
   const value = layoutConfig[name] ?? defaultValue;
   return Array.isArray(value) ? value.join(", ") : value;
+};
+
+export const getTheme = (config: ILayoutConfig) => {
+  return (config.Theme ?? defaultTheme).toLowerCase();
 };
 
 export const Emoji: React.FC<{ children: string; className?: string }> = ({

@@ -11,6 +11,8 @@ import {
 import { Field, Label } from "./Field";
 import { Input } from "./Input";
 import { Select } from "./Select";
+import { HexColorPicker } from "react-colorful";
+import { PopoverColorPicker } from "./PopoverColorPicker";
 
 export interface Props {
   layout: ILayout;
@@ -35,19 +37,37 @@ export const LayoutProperty: React.FC<{
     <Field>
       <Label>{p.name} </Label>
 
-      {p.type === "text" ? (
-        <Input
-          placeholder={p.placeholder ?? `Value for ${p.name}`}
-          value={layoutConfig[p.name] ?? ""}
-          onChange={e => setLayoutConfig({ [p.name]: e.target.value })}
-        />
-      ) : p.type === "select" ? (
-        <Select
-          options={p.options.map(value => ({ value }))}
-          value={(layoutConfig[p.name] as string) ?? ""}
-          onChange={value => setLayoutConfig({ [p.name]: value })}
-        />
-      ) : null}
+      <div tw="w-full">
+        {p.type === "text" ? (
+          <Input
+            placeholder={p.placeholder ?? `Value for ${p.name}`}
+            value={layoutConfig[p.name] ?? ""}
+            onChange={e => setLayoutConfig({ [p.name]: e.target.value })}
+          />
+        ) : p.type === "number" ? (
+          <Input
+            placeholder={p.placeholder ?? `Value for ${p.name}`}
+            value={layoutConfig[p.name] ?? ""}
+            type="number"
+            onChange={e => setLayoutConfig({ [p.name]: e.target.value })}
+          />
+        ) : p.type === "select" ? (
+          <Select
+            options={p.options.map(value => ({ value }))}
+            value={layoutConfig[p.name] ?? ""}
+            onChange={value => setLayoutConfig({ [p.name]: value })}
+          />
+        ) : p.type === "color" ? (
+          <PopoverColorPicker
+            color={layoutConfig[p.name] ?? p.default}
+            onChange={value => setLayoutConfig({ [p.name]: value })}
+          />
+        ) : null}
+
+        {p.description != null && (
+          <span tw="text-xs text-gray-400">{p.description}</span>
+        )}
+      </div>
     </Field>
   );
 };

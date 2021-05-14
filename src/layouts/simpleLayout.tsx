@@ -1,5 +1,5 @@
 import { GetCSSFn, ILayout, LayoutComponent } from "../types";
-import { gString, Markdown } from "./utils";
+import { Markdown } from "./utils";
 
 const getCSS: GetCSSFn = config => {
   return `
@@ -12,8 +12,7 @@ const getCSS: GetCSSFn = config => {
 };
 
 const Component: LayoutComponent = ({ config }) => {
-  const text = gString(config, "Text");
-  return <Markdown className="header">{text}</Markdown>;
+  return <Markdown className="header">{config.Text}</Markdown>;
 };
 
 export const simpleLayout: ILayout = {

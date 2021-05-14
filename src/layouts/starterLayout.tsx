@@ -1,9 +1,9 @@
 import { GetCSSFn, ILayout, LayoutComponent } from "../types";
 import { colourThemes, defaultTheme } from "./colours";
-import { gString, RLogo } from "./utils";
+import { getTheme, RLogo } from "./utils";
 
 const getCSS: GetCSSFn = config => {
-  const theme = gString(config, "Theme", defaultTheme).toLowerCase();
+  const theme = getTheme(config);
   const colours = colourThemes[theme];
 
   return `
@@ -58,13 +58,13 @@ const getCSS: GetCSSFn = config => {
 };
 
 const Component: LayoutComponent = ({ config }) => {
-  const theme = gString(config, "Theme", defaultTheme).toLowerCase();
-  const name = gString(config, "Name");
-  const url = gString(config, "URL");
+  const theme = getTheme(config);
+  const name = config.Name;
+  const url = config.URL;
   const iconURL = `https://devicons.railway.app/${name}?variant=${
     theme === "light" ? "dark" : "light"
   }`;
-  const hideIcon = gString(config, "Icon") === "Hide";
+  const hideIcon = config.Icon === "Hide";
 
   console.log({ iconURL });
 

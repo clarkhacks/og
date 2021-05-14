@@ -1,5 +1,6 @@
 import { ILayout, ILayoutConfig } from "../types";
 import { docsLayout } from "./docsLayout";
+import { patternLayout } from "./patternLayout";
 import { railwayLayout } from "./railwayLayout";
 import { simpleLayout } from "./simpleLayout";
 import { starterLayout } from "./starterLayout";
@@ -12,6 +13,7 @@ export const layouts: ILayout[] = [
   starterLayout,
   railwayLayout,
   docsLayout,
+  patternLayout,
 ];
 
 export const getDefaultLayout = (layout: ILayout): ILayoutConfig => {
@@ -19,7 +21,7 @@ export const getDefaultLayout = (layout: ILayout): ILayoutConfig => {
 
   for (const p of layout.properties) {
     if (p.default != null) {
-      config[p.name] = p.default;
+      config[p.name] = p.default?.toString();
     }
   }
 
@@ -39,7 +41,7 @@ export const getLayoutConfigFromQuery = (
   const config: ILayoutConfig = getDefaultLayout(layout);
   for (const p of layout.properties) {
     if (query[p.name] != null) {
-      config[p.name] = query[p.name];
+      config[p.name] = query[p.name].toString();
     }
   }
 

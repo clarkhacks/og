@@ -28,8 +28,17 @@ export type ILayoutProperty = BaseLayoutProperty &
         placeholder?: string;
       }
     | {
+        type: "number";
+        default?: string;
+        placeholder?: string;
+      }
+    | {
         type: "select";
         options: string[];
+        default?: string;
+      }
+    | {
+        type: "color";
         default?: string;
       }
   );
@@ -39,7 +48,7 @@ export interface BaseLayoutProperty {
   description?: string;
 }
 
-export type ILayoutValue = string | string[];
+export type ILayoutValue = string;
 export type ILayoutConfig = Record<string, ILayoutValue>;
 
 export interface Colours {

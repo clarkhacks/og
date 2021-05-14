@@ -1,9 +1,9 @@
 import { GetCSSFn, ILayout, LayoutComponent } from "../types";
-import { defaultTheme, colourThemes } from "./colours";
-import { gString, Markdown, RLogo } from "./utils";
+import { colourThemes, defaultTheme } from "./colours";
+import { getTheme, Markdown, RLogo } from "./utils";
 
 const getCSS: GetCSSFn = config => {
-  const theme = gString(config, "Theme", defaultTheme).toLowerCase();
+  const theme = getTheme(config);
   const colours = colourThemes[theme];
 
   return `
@@ -25,8 +25,8 @@ const getCSS: GetCSSFn = config => {
 };
 
 const Component: LayoutComponent = ({ config }) => {
-  const title = gString(config, "Title");
-  const subTitle = gString(config, "Sub Title");
+  const title = config.Title;
+  const subTitle = config["Sub Title"];
 
   const logoSize = !!subTitle ? 150 : 240;
 
