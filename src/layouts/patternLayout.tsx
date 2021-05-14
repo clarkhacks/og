@@ -92,7 +92,7 @@ export const patternLayout: ILayout = {
     {
       name: "Opacity",
       type: "number",
-      default: 0.5,
+      default: "0.5",
     },
   ],
   getCSS,
