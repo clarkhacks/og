@@ -40,7 +40,8 @@ const Home: NextPage = () => {
           <P>
             This service dynamically generates{" "}
             <StyledLink href="https://ogp.me/">Open Graph</StyledLink> images to
-            be used in HTML meta tags.
+            be used in HTML meta tags. OG images are the images you see when you
+            share a link on Twitter or Discord.
           </P>
 
           <P>
