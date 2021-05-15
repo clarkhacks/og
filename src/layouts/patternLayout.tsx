@@ -82,12 +82,12 @@ export const patternLayout: ILayout = {
     {
       name: "Foreground",
       type: "color",
-      default: "#9c92ac",
+      default: "#d345e5",
     },
     {
       name: "Background",
       type: "color",
-      default: "#dfdbe5",
+      default: "#4317d3",
     },
     {
       name: "Opacity",

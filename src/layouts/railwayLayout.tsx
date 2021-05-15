@@ -58,7 +58,7 @@ export const railwayLayout: ILayout = {
     {
       name: "Title",
       type: "text",
-      default: "Build Apps <br /> Not Infrastructure",
+      default: "Build Apps \\n Not Infrastructure",
       placeholder: "Big text",
     },
     {
