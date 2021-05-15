@@ -3,6 +3,7 @@ import marked from "marked";
 import { ILayoutConfig } from "../types";
 import React from "react";
 import { defaultTheme } from "./colours";
+import { sanitizeHtml } from "../pages/api/_lib/sanitizer";
 
 export const emojify = (text: string): string =>
   twemoji.parse(text, {
@@ -41,7 +42,7 @@ export const Markdown: React.FC<{
 }> = ({ children, style, ...props }) => (
   <div
     className={`markdown ${props.className}`}
-    dangerouslySetInnerHTML={{ __html: mdToHTML(children) }}
+    dangerouslySetInnerHTML={{ __html: mdToHTML(sanitizeHtml(children)) }}
     style={style}
   />
 );
