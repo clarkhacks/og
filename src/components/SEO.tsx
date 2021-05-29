@@ -15,7 +15,7 @@ const description = "Service that generates dynamic OG images for railway.app";
 
 // Generate OG image for itself
 const image =
-  "https://og.railway.app/api/image?fileType=png&layoutName=Railway&Theme=Dark&Title=Open+Graph+%3Cbr+%2F%3E+Image+Generator&Sub+Title=og.railway.app";
+  "https://og.railway.app/api/image?fileType=png&layoutName=Railway&Theme=Dark&Title=Open+Graph%5CnImage+Generator&Sub+Title=og.railway.app";
 
 const config: DefaultSeoProps = {
   title,
