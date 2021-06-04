@@ -4,6 +4,7 @@ import { ILayoutConfig } from "../types";
 import React from "react";
 import { defaultTheme } from "./colours";
 import { sanitizeHtml } from "../pages/api/_lib/sanitizer";
+import { getAuthor } from "./authors";
 
 export const emojify = (text: string): string =>
   twemoji.parse(text, {
@@ -62,6 +63,20 @@ export const RLogo: React.FC<{
       src={rlogo}
       className="rlogo"
       style={{ width: 200, height: 200, ...style }}
+    />
+  );
+};
+
+export const AuthorImage: React.FC<{
+  name: string;
+  style?: React.CSSProperties;
+}> = ({ name, style }) => {
+  const author = getAuthor(name);
+  return (
+    <img
+      src={author.image}
+      alt={author.name}
+      style={{ borderRadius: "100%", width: 100, height: 100, ...style }}
     />
   );
 };
