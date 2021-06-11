@@ -1,4 +1,5 @@
 import { GetCSSFn, ILayout, LayoutComponent } from "../types";
+import { authors } from "./authors";
 import { colourThemes, defaultTheme } from "./colours";
 import { AuthorImage, getTheme, Markdown, RLogo } from "./utils";
 
@@ -69,7 +70,7 @@ export const blogLayout: ILayout = {
     {
       name: "Author",
       type: "select",
-      options: ["Faraz Patankar", "Jake Cooper"],
+      options: authors.map(author => author.name),
     },
   ],
   getCSS,
