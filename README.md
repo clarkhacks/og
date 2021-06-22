@@ -6,14 +6,6 @@ Service that dynamically generates [Open Graph](https://ogp.me/) images for [Rai
 
 <img width="600" src="https://og.railway.app/api/image?fileType=png&layoutName=Starter&Theme=Dark&Name=BlitzJS" />
 
-# 🙌 Acknowledgement
-
-Credit where credit is due. This started as a forked repo from [Vercel's OG image generator](https://github.com/vercel/og-image). The main differences are
-
-- Multiple configurable layouts
-- Content of image written in JSX (as opposed to a template string)
-- Headless Chrome configuration modified to deploy on Railway
-
 # ✨ How To Use
 
 Use the generated image URL in the `<head>` of your HTML document as the og:image meta property
@@ -90,3 +82,12 @@ yarn build
 # Start in production
 yarn start
 ```
+
+# 🙌 Acknowledgement
+
+Credit where credit is due. This started as a forked repo from [Vercel's OG image generator](https://github.com/vercel/og-image). The main differences are
+
+- Multiple configurable layouts
+- Content of image written in JSX (as opposed to a template string)
+- Headless Chrome configuration modified to deploy on Railway
+
