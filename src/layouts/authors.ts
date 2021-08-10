@@ -15,6 +15,10 @@ export const authors = [
     name: "Jake Runzer",
     image: "https://og.railway.app/authors/jake-runzer.jpeg",
   },
+  {
+    name: "Angelo Saraceno",
+    image: "https://og.railway.app/authors/angelo-saraceno.jpeg",
+  }
 ];
 
 const defaultAuthor = authors[0];
