@@ -53,17 +53,7 @@ const Home: NextPage = () => {
             <StyledLink href="https://github.com/vercel/og-image">
               Vercel's OG image generator
             </StyledLink>
-            . The main differences are
-            <ul tw="list-disc mt-4 pl-4">
-              <LI>Multiple configurable layouts</LI>
-              <LI>
-                Content of image written in JSX (as opposed to a template
-                string)
-              </LI>
-              <LI>
-                Headless Chrome configuration modified to deploy on Railway
-              </LI>
-            </ul>
+            .
           </P>
         </div>
 
