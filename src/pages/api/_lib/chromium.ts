@@ -3,6 +3,7 @@ import { OG_HEIGHT, OG_WIDTH } from "../../../constants";
 import { FileType } from "../../../types";
 import { getOptions } from "./options";
 
+// test
 async function getPage(isDev: boolean) {
   const options = await getOptions(isDev);
   const browser = await core.launch(options);
