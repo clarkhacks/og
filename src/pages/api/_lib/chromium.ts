@@ -2,16 +2,12 @@ import core from "puppeteer-core";
 import { OG_HEIGHT, OG_WIDTH } from "../../../constants";
 import { FileType } from "../../../types";
 import { getOptions } from "./options";
-let _page: core.Page | null;
 
+// test
 async function getPage(isDev: boolean) {
-  if (_page) {
-    return _page;
-  }
   const options = await getOptions(isDev);
   const browser = await core.launch(options);
-  _page = await browser.newPage();
-  return _page;
+  return await browser.newPage();
 }
 
 export async function getScreenshot(
