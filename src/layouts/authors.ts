@@ -21,7 +21,7 @@ export const authors = [
   },
   {
     name: "wyzlle",
-    image: "https://og.railway.app/authors/wyzlle.jpeg",
+    image: "https://og.railway.app/authors/wyzlle.png",
   },
 ];
 
