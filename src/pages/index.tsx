@@ -12,7 +12,7 @@ import { useDebouncedValue } from "../hooks/useDebouncedValue";
 import { useIsMounted } from "../hooks/useIsMounted";
 import { useLayoutConfig } from "../hooks/useLayoutConfig";
 import { layouts } from "../layouts";
-import { FileType } from "../types";
+import { FileType } from "../layouts/types";
 
 const Home: NextPage = () => {
   const isMounted = useIsMounted();
@@ -112,7 +112,7 @@ export const Config: React.FC = () => {
         <Label>File type</Label>
         <Select
           value={fileType}
-          options={[{ value: "png" }, { value: "jpeg" }]}
+          options={[{ value: "svg" }, { value: "png" }]}
           onChange={fileType =>
             setConfig(c => ({ ...c, fileType: fileType as FileType }))
           }
@@ -156,7 +156,7 @@ export const Viewer: React.FC = () => {
     return searchParams.toString();
   }, [config, layoutConfig]);
 
-  const imageURL = useMemo(() => `/api/image?${query}`, [query]);
+  const imageURL = useMemo(() => `/api/satori?${query}`, [query]);
   const htmlURL = useMemo(() => `/api/html?${query}`, [query]);
 
   const debouncedImageURL = useDebouncedValue(imageURL, 200);

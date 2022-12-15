@@ -1,7 +1,7 @@
 import { NextApiRequest } from "next";
 import { defaultConfig } from "../../../hooks/useConfig";
-import { getLayoutConfigFromQuery } from "../../../layouts";
-import { IConfig, ILayoutConfig, FileType } from "../../../types";
+import { getLayoutConfigFromQuery } from "../../../layoutsold";
+import { IConfig, ILayoutConfig, FileType } from "../../../types.old";
 
 export const parseRequest = (req: NextApiRequest): IConfig & ILayoutConfig => {
   const config: IConfig = {

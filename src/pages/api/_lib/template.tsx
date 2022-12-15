@@ -1,7 +1,7 @@
 import { layouts } from "../../../layouts";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
-import { IConfig, ILayoutConfig, LayoutComponent } from "../../../types";
+import { IConfig, ILayoutConfig, LayoutComponent } from "../../../types.old";
 import { sanitizeHtml } from "./sanitizer";
 
 const getCommonCSS = () => {

@@ -1,24 +1,19 @@
-import { ILayout, ILayoutConfig } from "../types";
-import { docsLayout } from "./docsLayout";
-import { patternLayout } from "./patternLayout";
-import { railwayLayout } from "./railwayLayout";
 import { simpleLayout } from "./simpleLayout";
-import { starterLayout } from "./starterLayout";
-import { blogLayout } from "./blogLayout";
+import { ILayout, ILayoutConfig, LayoutComponent } from "./types";
 
-/**
- * All layouts that are available in the UI
- */
-export const layouts: ILayout[] = [
-  simpleLayout,
-  starterLayout,
-  railwayLayout,
-  blogLayout,
-  docsLayout,
-  patternLayout,
-];
+export const layouts: ILayout<any>[] = [simpleLayout];
 
-export const getDefaultLayout = (layout: ILayout): ILayoutConfig => {
+export const getLayout = (layoutName: string): ILayout => {
+  const layout = layouts.find(l => l.name === layoutName);
+
+  if (layout == null) {
+    throw new Error(`Layout ${layoutName} not found`);
+  }
+
+  return layout;
+};
+
+export const getDefaultLayoutConfig = (layout: ILayout): ILayoutConfig => {
   const config: ILayoutConfig = {};
 
   for (const p of layout.properties) {
@@ -34,13 +29,9 @@ export const getLayoutConfigFromQuery = (
   layoutName: string,
   query: Record<string, string | string[]>,
 ): ILayoutConfig => {
-  const layout = layouts.find(l => l.name === layoutName);
+  const layout = getLayout(layoutName);
 
-  if (layout == null) {
-    return {};
-  }
-
-  const config: ILayoutConfig = getDefaultLayout(layout);
+  const config: ILayoutConfig = getDefaultLayoutConfig(layout);
   for (const p of layout.properties) {
     if (query[p.name] != null) {
       config[p.name] = query[p.name].toString();
@@ -48,4 +39,14 @@ export const getLayoutConfigFromQuery = (
   }
 
   return config;
+};
+
+export const getLayoutAndConfig = (
+  layoutName: string,
+  query: Record<string, string | string[]>,
+): { layout: ILayout; config: ILayoutConfig } => {
+  const layout = getLayout(layoutName);
+  const config = getLayoutConfigFromQuery(layoutName, query);
+
+  return { layout, config };
 };

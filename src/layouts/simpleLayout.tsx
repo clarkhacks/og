@@ -1,23 +1,32 @@
-import { GetCSSFn, ILayout, LayoutComponent } from "../types";
-import { Markdown } from "./utils";
+import React from "react";
+import { ILayout } from "./types";
 
-const getCSS: GetCSSFn = config => {
-  return `
-    body {
-      font-size: 200px;
-      color: white;
-      background: linear-gradient(to bottom right, tomato, deeppink);
-    }
-  `;
+export interface SimpleLayoutConfig {
+  text: string;
+}
+
+const Component: React.FC<{ config: SimpleLayoutConfig }> = ({ config }) => {
+  return (
+    <div
+      tw="flex items-center justify-center w-full h-full text-9xl text-white font-bold"
+      style={{
+        background: "linear-gradient(to bottom right, tomato, deeppink)",
+      }}
+    >
+      {config.text}
+    </div>
+  );
 };
 
-const Component: LayoutComponent = ({ config }) => {
-  return <Markdown className="header">{config.Text}</Markdown>;
-};
-
-export const simpleLayout: ILayout = {
-  name: "Simple",
-  properties: [{ name: "Text", type: "text", default: "**Hello** _World_" }],
-  getCSS,
+export const simpleLayout: ILayout<SimpleLayoutConfig> = {
+  name: "simple",
+  properties: [
+    {
+      type: "text",
+      name: "text",
+      default: "Hello, world!",
+      placeholder: "Text to display",
+    },
+  ],
   Component,
 };

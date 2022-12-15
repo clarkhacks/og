@@ -1,6 +1,6 @@
 import core from "puppeteer-core";
 import { OG_HEIGHT, OG_WIDTH } from "../../../constants";
-import { FileType } from "../../../types";
+import { FileType } from "../../../types.old";
 import { getOptions } from "./options";
 
 // test
