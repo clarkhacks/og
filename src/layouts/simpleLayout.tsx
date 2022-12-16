@@ -10,7 +10,7 @@ export type SimpleLayoutConfig = z.infer<typeof simpleLayoutConfig>;
 const Component: React.FC<{ config: SimpleLayoutConfig }> = ({ config }) => {
   return (
     <div
-      tw="flex items-center justify-center text-center px-4 w-full h-full text-[200px] text-white font-bold"
+      tw="flex items-center justify-center text-center px-4 w-full h-full text-8xl text-white font-bold"
       style={{
         background: "linear-gradient(to bottom right, tomato, deeppink)",
       }}

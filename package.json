@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@radix-ui/react-popover": "^0.0.17",
+    "@resvg/resvg-js": "^2.2.0",
     "copy-to-clipboard": "^3.3.3",
     "fathom-client": "^3.5.0",
     "marked": "2.0.3",

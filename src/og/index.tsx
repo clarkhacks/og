@@ -1,5 +1,6 @@
 import { ILayout, ILayoutConfig } from "../layouts/types";
 import satori from "satori";
+import { Resvg, ResvgRenderOptions } from "@resvg/resvg-js";
 import fs from "fs";
 import { SatoriOptions } from "satori";
 import { OG_HEIGHT, OG_WIDTH } from "../constants";
@@ -35,4 +36,19 @@ export const renderLayoutToSVG = async ({
   });
 
   return svg;
+};
+
+const resvgOpts: ResvgRenderOptions = {
+  fitTo: {
+    mode: "width",
+    value: OG_WIDTH,
+  },
+};
+
+export const renderSVGToPNG = async (svg: string) => {
+  const resvg = new Resvg(svg, resvgOpts);
+  const pngData = resvg.render();
+  const pngBuffer = pngData.asPng();
+
+  return pngBuffer;
 };

@@ -3,7 +3,7 @@ import { z } from "zod";
 export type FileType = "svg" | "png";
 
 export interface IConfig {
-  fileType: FileType;
+  fileType?: FileType;
   layoutName: string;
 }
 

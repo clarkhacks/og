@@ -1,9 +1,8 @@
-import { z } from "zod";
 import { docsLayout } from "./docsLayout";
 import { simpleLayout } from "./simpleLayout";
-import { ILayout, ILayoutConfig, LayoutComponent } from "./types";
+import { ILayout, ILayoutConfig } from "./types";
 
-export const layouts: ILayout<any>[] = [simpleLayout, docsLayout];
+export const layouts: ILayout<any>[] = [docsLayout, simpleLayout];
 
 export const getLayout = (layoutName: string): ILayout => {
   const layout = layouts.find(l => l.name === layoutName);

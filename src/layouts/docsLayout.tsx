@@ -77,7 +77,7 @@ export const docsLayout: ILayout<typeof docsLayoutConfig> = {
     {
       type: "text",
       name: "text",
-      default: "Hello, world!",
+      default: "Railway Documentation",
       placeholder: "Text to display",
     },
   ],

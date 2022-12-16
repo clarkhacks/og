@@ -9,17 +9,16 @@ import { OG_HEIGHT, OG_WIDTH } from "../constants";
 import { useConfig } from "../hooks/useConfig";
 import { useCopy } from "../hooks/useCopy";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
+import { useImageUrl } from "../hooks/useImageUrls";
 import { useIsMounted } from "../hooks/useIsMounted";
-import { useLayoutConfig } from "../hooks/useLayoutConfig";
 import { layouts } from "../layouts";
-import { FileType } from "../layouts/types";
 
 const Home: NextPage = () => {
   const isMounted = useIsMounted();
 
   return (
     <main tw="px-6 pb-20 max-w-6xl w-full mx-auto">
-      <header tw="text-center mt-20 mb-12 space-y-6">
+      <header tw="text-center mt-20 mb-10 space-y-6">
         <h1 tw="text-5xl font-bold">Railway OG Image Generator</h1>
         <h2 tw="text-xl text-gray-600">
           Dynamic open graph images for fun and profit
@@ -28,10 +27,10 @@ const Home: NextPage = () => {
 
       {/* We pull the state from local storage so need the app to be loaded in the browser */}
       {isMounted && (
-        <section tw="grid gap-y-8 md:gap-8 grid-cols-1 md:grid-cols-3">
-          <Config />
+        <>
           <Viewer />
-        </section>
+          <Config />
+        </>
       )}
 
       <section tw="mt-16 grid gap-8 grid-cols-1 md:grid-cols-2">
@@ -40,20 +39,24 @@ const Home: NextPage = () => {
           <P>
             This service dynamically generates{" "}
             <StyledLink href="https://ogp.me/">Open Graph</StyledLink> images to
-            be used in HTML meta tags. OG images are the images you see when you
-            share a link on Twitter or Discord.
-          </P>
-
-          <P>
-            <pre tw="pl-4 text-sm break-all overflow-hidden overflow-ellipsis">{`<meta property="og:image" content="{URL to this site}" />`}</pre>
-          </P>
-
-          <P>
-            The design and implementation of this site is heavily inspired by{" "}
-            <StyledLink href="https://github.com/vercel/og-image">
-              Vercel's OG image generator
+            be used in HTML meta tags. OG images are configured with{" "}
+            <StyledLink href="https://github.com/railwayapp/og/tree/main/src/layouts">
+              layouts
+            </StyledLink>{" "}
+            written in React, HTML, and Tailwind. The layout is rendered with
+            the user input above to SVG with{" "}
+            <StyledLink href="https://github.com/vercel/satori">
+              satori
             </StyledLink>
             .
+          </P>
+
+          <P>
+            This service is currently in use by{" "}
+            <StyledLink href="https://railway.app">Railway</StyledLink> and used
+            to dynamically generate OG images for the{" "}
+            <StyledLink href="https://docs.railway.app">docs</StyledLink> and{" "}
+            <StyledLink href="https://blog.railway.app">blog</StyledLink>.
           </P>
         </div>
 
@@ -75,7 +78,7 @@ const Home: NextPage = () => {
           </P>
 
           <P>
-            <Link href="https://railway.app/new?template=https%3A%2F%2Fgithub.com%2Frailwayapp%2Fog-generator">
+            <Link href="https://railway.app/new/template/xWRIhd">
               <img
                 src="https://railway.app/button.svg"
                 alt="Deploy on Railway"
@@ -90,7 +93,6 @@ const Home: NextPage = () => {
 
 const H2 = tw.h2`font-bold text-3xl mb-4`;
 const P = tw.p`mb-4 max-w-lg leading-relaxed`;
-const LI = tw.li``;
 
 const StyledLink = tw(Link)`
   underline text-accent hover:bg-accent hover:text-white hover:no-underline
@@ -99,7 +101,12 @@ const StyledLink = tw(Link)`
 export default Home;
 
 export const Config: React.FC = () => {
-  const [{ fileType, layoutName }, setConfig] = useConfig();
+  const [{ layoutName }, setConfig] = useConfig();
+  const [isSVGCopied, copySVG] = useCopy();
+  const [isPNGCopied, copyPNG] = useCopy();
+
+  const svgImageUrl = useImageUrl("svg");
+  const pngImageUrl = useImageUrl("png");
 
   const layout = useMemo(
     () => layouts.find(l => l.name === layoutName),
@@ -107,101 +114,79 @@ export const Config: React.FC = () => {
   );
 
   return (
-    <div tw="space-y-4 md:mt-8">
-      <Field>
-        <Label>Layout</Label>
-        <Select
-          value={layoutName}
-          options={layouts.map(l => ({ value: l.name }))}
-          onChange={layoutName => setConfig(c => ({ ...c, layoutName }))}
-        />
-      </Field>
+    <div tw="grid gap-4 grid-cols-1 md:grid-cols-2 mt-4 md:mt-8">
+      <div tw="space-y-4">
+        <Field>
+          <Label>Layout</Label>
+          <Select
+            value={layoutName}
+            options={layouts.map(l => ({ value: l.name }))}
+            onChange={layoutName => setConfig(c => ({ ...c, layoutName }))}
+          />
+        </Field>
 
-      <Field>
-        <Label>File type</Label>
-        <Select
-          value={fileType}
-          options={[{ value: "svg" }, { value: "png" }]}
-          onChange={fileType =>
-            setConfig(c => ({ ...c, fileType: fileType as FileType }))
-          }
-        />
-      </Field>
+        <hr />
 
-      <hr />
-
-      {layout == null ? (
-        <p>Layout {layoutName} does not exist</p>
-      ) : (
-        <Layout layout={layout} key={layout.name} />
-      )}
-    </div>
-  );
-};
-
-export const Viewer: React.FC = () => {
-  const [config] = useConfig();
-  const [layoutConfig] = useLayoutConfig();
-  const [isCopied, copy] = useCopy();
-  const [isLoaded, setIsLoaded] = useState(true);
-
-  const query = useMemo(() => {
-    const searchParams = new URLSearchParams();
-    for (const [key, value] of Object.entries({ ...config, ...layoutConfig })) {
-      if (value != null) {
-        searchParams.set(key, value);
-      }
-    }
-
-    return searchParams.toString();
-  }, [config, layoutConfig]);
-
-  const imageURL = useMemo(() => `/api/satori?${query}`, [query]);
-  const htmlURL = useMemo(() => `/api/html?${query}`, [query]);
-
-  const debouncedImageURL = useDebouncedValue(imageURL, 200);
-  useEffect(() => setIsLoaded(false), [debouncedImageURL]);
-
-  return (
-    <div tw="space-y-4 w-full col-span-2">
-      <div
-        className="image-wrapper"
-        css={[
-          tw`w-full relative`,
-          { paddingTop: `${(OG_HEIGHT / OG_WIDTH) * 100}%` },
-        ]}
-      >
-        <img
-          css={[
-            tw`absolute inset-0 shadow-lg w-full`,
-            !isLoaded && {
-              filter: "blur(5px)",
-            },
-          ]}
-          src={debouncedImageURL}
-          alt={`OG Image for the ${config.layoutName} layout`}
-          onLoad={() => setIsLoaded(true)}
-        />
+        {layout == null ? (
+          <p>Layout {layoutName} does not exist</p>
+        ) : (
+          <Layout layout={layout} key={layout.name} />
+        )}
       </div>
 
       <div className="buttons" tw="flex space-x-2 justify-end">
         <button
           css={[buttonStyles]}
-          onClick={() => copy(`${window.location.origin}${imageURL}`)}
+          onClick={() => copySVG(`${window.location.origin}${svgImageUrl}`)}
         >
-          {isCopied ? "Copied!" : "Copy Image URL"}
+          {isSVGCopied ? "Copied!" : "Copy SVG Url"}
         </button>
-        <Link css={[buttonStyles]} href={htmlURL} external>
-          Open HTML Page
-        </Link>
+        <button
+          css={[buttonStyles]}
+          onClick={() => copyPNG(`${window.location.origin}${pngImageUrl}`)}
+        >
+          {isPNGCopied ? "Copied!" : "Copy PNG Url"}
+        </button>
       </div>
     </div>
   );
 };
 
+export const Viewer: React.FC = () => {
+  const [isLoaded, setIsLoaded] = useState(true);
+  const svgImageUrl = useImageUrl("svg");
+
+  const debouncedImageURL = useDebouncedValue(svgImageUrl, 200);
+  useEffect(() => setIsLoaded(false), [debouncedImageURL]);
+
+  return (
+    <section tw="space-y-4 w-full">
+      <div
+        className="image-wrapper"
+        css={[
+          tw`w-full relative shadow-lg`,
+          { paddingTop: `${(OG_HEIGHT / OG_WIDTH) * 100}%` },
+        ]}
+      >
+        <img
+          css={[
+            tw`absolute inset-0 w-full`,
+            !isLoaded && {
+              filter: "blur(5px)",
+            },
+          ]}
+          src={debouncedImageURL}
+          alt={`Dynamically generated OG image`}
+          onLoad={() => setIsLoaded(true)}
+        />
+      </div>
+    </section>
+  );
+};
+
 const buttonStyles = tw`
   flex items-center justify-center
-  px-2 py-1 w-40 h-9 rounded text-base text-white bg-accent font-medium
+  px-2 py-1 w-32 h-8 rounded text-sm text-gray-600 bg-gray-300 font-medium
   hover:bg-pink-500
   focus:outline-none focus:ring-2 focus:ring-pink-500
 `;

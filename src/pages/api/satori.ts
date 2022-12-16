@@ -1,11 +1,11 @@
 import { NextApiHandler } from "next";
 import { getLayoutAndConfig } from "../../layouts";
 import { z } from "zod";
-import { renderLayoutToSVG } from "../../og";
+import { renderLayoutToSVG, renderSVGToPNG } from "../../og";
 
 const imageReq = z.object({
   layoutName: z.string(),
-  fileType: z.string().nullish(),
+  fileType: z.enum(["svg", "png"]).nullish(),
 });
 
 const handler: NextApiHandler = async (req, res) => {
@@ -16,13 +16,21 @@ const handler: NextApiHandler = async (req, res) => {
     const svg = await renderLayoutToSVG({ layout, config });
 
     res.statusCode = 200;
-    res.setHeader("Content-Type", "image/svg+xml");
+    res.setHeader(
+      "Content-Type",
+      fileType === "svg" ? "image/svg+xml" : `image/${fileType}`,
+    );
     res.setHeader(
       "Cache-Control",
       `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`,
     );
 
-    res.end(svg);
+    if (fileType === "png") {
+      const png = await renderSVGToPNG(svg);
+      res.end(png);
+    } else {
+      res.end(svg);
+    }
   } catch (e) {
     res.statusCode = 500;
     res.setHeader("Content-Type", "text/html");

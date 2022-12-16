@@ -3,11 +3,10 @@ import { layouts } from "../layouts";
 import { IConfig } from "../layouts/types";
 
 export const defaultConfig: IConfig = {
-  fileType: "png",
   layoutName: layouts[0].name,
 };
 
 export const useConfig = createLocalStorageStateHook<IConfig>(
-  "config",
+  "config-v2",
   defaultConfig,
 );
