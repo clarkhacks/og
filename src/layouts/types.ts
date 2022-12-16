@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export type FileType = "svg" | "png";
 
 export interface IConfig {
@@ -5,10 +7,11 @@ export interface IConfig {
   layoutName: string;
 }
 
-export type ILayout<TConfig = any> = {
+export type ILayout<TConfig extends z.ZodType = z.AnyZodObject> = {
   name: string;
+  config: TConfig;
   properties: ILayoutProperty[];
-  Component: LayoutComponent<TConfig>;
+  Component: LayoutComponent<z.infer<TConfig>>;
 };
 
 export type LayoutComponent<TConfig> = React.ComponentType<{

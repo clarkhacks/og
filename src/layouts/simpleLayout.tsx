@@ -1,14 +1,16 @@
 import React from "react";
+import { z } from "zod";
 import { ILayout } from "./types";
 
-export interface SimpleLayoutConfig {
-  text: string;
-}
+const simpleLayoutConfig = z.object({
+  text: z.string(),
+});
+export type SimpleLayoutConfig = z.infer<typeof simpleLayoutConfig>;
 
 const Component: React.FC<{ config: SimpleLayoutConfig }> = ({ config }) => {
   return (
     <div
-      tw="flex items-center justify-center w-full h-full text-9xl text-white font-bold"
+      tw="flex items-center justify-center text-center px-4 w-full h-full text-[200px] text-white font-bold"
       style={{
         background: "linear-gradient(to bottom right, tomato, deeppink)",
       }}
@@ -18,8 +20,9 @@ const Component: React.FC<{ config: SimpleLayoutConfig }> = ({ config }) => {
   );
 };
 
-export const simpleLayout: ILayout<SimpleLayoutConfig> = {
+export const simpleLayout: ILayout<typeof simpleLayoutConfig> = {
   name: "simple",
+  config: simpleLayoutConfig,
   properties: [
     {
       type: "text",

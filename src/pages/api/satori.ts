@@ -12,11 +12,16 @@ const handler: NextApiHandler = async (req, res) => {
   try {
     const { layoutName, fileType } = await imageReq.parseAsync(req.query);
 
-    const { layout, config } = getLayoutAndConfig(layoutName, req.query);
+    const { layout, config } = await getLayoutAndConfig(layoutName, req.query);
     const svg = await renderLayoutToSVG({ layout, config });
 
     res.statusCode = 200;
     res.setHeader("Content-Type", "image/svg+xml");
+    res.setHeader(
+      "Cache-Control",
+      `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`,
+    );
+
     res.end(svg);
   } catch (e) {
     res.statusCode = 500;

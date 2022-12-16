@@ -1,7 +1,9 @@
+import { z } from "zod";
+import { docsLayout } from "./docsLayout";
 import { simpleLayout } from "./simpleLayout";
 import { ILayout, ILayoutConfig, LayoutComponent } from "./types";
 
-export const layouts: ILayout<any>[] = [simpleLayout];
+export const layouts: ILayout<any>[] = [simpleLayout, docsLayout];
 
 export const getLayout = (layoutName: string): ILayout => {
   const layout = layouts.find(l => l.name === layoutName);
@@ -25,10 +27,10 @@ export const getDefaultLayoutConfig = (layout: ILayout): ILayoutConfig => {
   return config;
 };
 
-export const getLayoutConfigFromQuery = (
+export const getLayoutConfigFromQuery = async (
   layoutName: string,
   query: Record<string, string | string[]>,
-): ILayoutConfig => {
+): Promise<ILayoutConfig> => {
   const layout = getLayout(layoutName);
 
   const config: ILayoutConfig = getDefaultLayoutConfig(layout);
@@ -38,15 +40,16 @@ export const getLayoutConfigFromQuery = (
     }
   }
 
-  return config;
+  // Validate layout
+  return layout.config.parseAsync(config);
 };
 
-export const getLayoutAndConfig = (
+export const getLayoutAndConfig = async (
   layoutName: string,
   query: Record<string, string | string[]>,
-): { layout: ILayout; config: ILayoutConfig } => {
+): Promise<{ layout: ILayout; config: ILayoutConfig }> => {
   const layout = getLayout(layoutName);
-  const config = getLayoutConfigFromQuery(layoutName, query);
+  const config = await getLayoutConfigFromQuery(layoutName, query);
 
   return { layout, config };
 };

@@ -1,2 +1,2 @@
-export const OG_WIDTH = 2048;
-export const OG_HEIGHT = 1070;
+export const OG_WIDTH = 1200;
+export const OG_HEIGHT = 630;

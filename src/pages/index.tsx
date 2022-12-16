@@ -109,6 +109,15 @@ export const Config: React.FC = () => {
   return (
     <div tw="space-y-4 md:mt-8">
       <Field>
+        <Label>Layout</Label>
+        <Select
+          value={layoutName}
+          options={layouts.map(l => ({ value: l.name }))}
+          onChange={layoutName => setConfig(c => ({ ...c, layoutName }))}
+        />
+      </Field>
+
+      <Field>
         <Label>File type</Label>
         <Select
           value={fileType}
@@ -116,15 +125,6 @@ export const Config: React.FC = () => {
           onChange={fileType =>
             setConfig(c => ({ ...c, fileType: fileType as FileType }))
           }
-        />
-      </Field>
-
-      <Field>
-        <Label>Layout</Label>
-        <Select
-          value={layoutName}
-          options={layouts.map(l => ({ value: l.name }))}
-          onChange={layoutName => setConfig(c => ({ ...c, layoutName }))}
         />
       </Field>
 
