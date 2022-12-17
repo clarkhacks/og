@@ -22,7 +22,7 @@ export const useImageUrl = (fileType: FileType) => {
   }, [config, layoutConfig]);
 
   const imageUrl = useMemo(
-    () => `/api/satori?fileType=${fileType}&${query}`,
+    () => `/api/image?fileType=${fileType}&${query}`,
     [query, fileType],
   );
 

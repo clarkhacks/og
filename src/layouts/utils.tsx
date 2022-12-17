@@ -50,8 +50,8 @@ export const RLogo: React.FC<{
   );
 };
 
-export const GradientBackground: React.FC<{ theme: "light" | "dark" }> = ({
-  theme,
+export const GradientBackground: React.FC<{ theme?: "light" | "dark" }> = ({
+  theme = "dark",
 }) => {
   if (theme == "dark") {
     return (

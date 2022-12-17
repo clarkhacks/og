@@ -43,6 +43,9 @@ const resvgOpts: ResvgRenderOptions = {
     mode: "width",
     value: OG_WIDTH,
   },
+  shapeRendering: 2,
+  textRendering: 2,
+  imageRendering: 0,
 };
 
 export const renderSVGToPNG = async (svg: string) => {
