@@ -7,6 +7,7 @@ export interface Props {
   external?: boolean;
   className?: string;
   children?: React.ReactNode;
+  target?: string;
 }
 
 const isExternalLink = (href: string) =>
@@ -32,8 +33,8 @@ export const Link: React.FC<Props> = ({
   }
 
   return (
-    <NLink href={href} passHref>
-      <a {...props}>{children}</a>
+    <NLink href={href} passHref {...props}>
+      {children}
     </NLink>
   );
 };

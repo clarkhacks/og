@@ -6,11 +6,16 @@ import { RLogo } from "./utils";
 
 const docsLayoutConfig = z.object({
   Page: z.string(),
+  Url: z.string().nullish(),
 });
 
 export type DocsLayoutConfig = z.infer<typeof docsLayoutConfig>;
 
 const Component: React.FC<{ config: DocsLayoutConfig }> = ({ config }) => {
+  const url =
+    (config.Url ?? "").trim() === ""
+      ? "docs.railway.app"
+      : (config.Url as string);
   return (
     <div
       tw="relative flex justify-start items-end w-full h-full"
@@ -52,11 +57,12 @@ const Component: React.FC<{ config: DocsLayoutConfig }> = ({ config }) => {
       </div>
 
       {/* docs link  */}
+
       <p
         tw="absolute right-10 bottom-4 text-xl"
         style={{ color: "hsl(270, 70%, 65%)" }}
       >
-        docs.railway.app
+        {url}
       </p>
 
       {/* railway logo */}
@@ -79,6 +85,12 @@ export const docsLayout: ILayout<typeof docsLayoutConfig> = {
       name: "Page",
       default: "Railway Documentation",
       placeholder: "Text to display",
+    },
+    {
+      type: "text",
+      name: "Url",
+      default: "docs.railway.app",
+      placeholder: "Url to display",
     },
   ],
   Component,

@@ -134,19 +134,30 @@ export const Config: React.FC = () => {
         )}
       </div>
 
-      <div className="buttons" tw="flex space-x-2 justify-end">
-        <button
-          css={[buttonStyles]}
-          onClick={() => copySVG(`${window.location.origin}${svgImageUrl}`)}
+      <div tw="space-y-6">
+        <div className="buttons" tw="flex space-x-2 justify-end">
+          <button
+            css={[buttonStyles]}
+            onClick={() => copySVG(`${window.location.origin}${svgImageUrl}`)}
+          >
+            {isSVGCopied ? "Copied!" : "Copy SVG Url"}
+          </button>
+          <button
+            css={[buttonStyles]}
+            onClick={() => copyPNG(`${window.location.origin}${pngImageUrl}`)}
+          >
+            {isPNGCopied ? "Copied!" : "Copy PNG Url"}
+          </button>
+        </div>
+
+        <p
+          tw="bg-gray-100 p-4 rounded font-mono whitespace-normal break-words text-sm"
+          style={{ wordBreak: "break-all" }}
         >
-          {isSVGCopied ? "Copied!" : "Copy SVG Url"}
-        </button>
-        <button
-          css={[buttonStyles]}
-          onClick={() => copyPNG(`${window.location.origin}${pngImageUrl}`)}
-        >
-          {isPNGCopied ? "Copied!" : "Copy PNG Url"}
-        </button>
+          <Link href={svgImageUrl} target="_blank" tw="hover:text-pink-600">
+            {svgImageUrl.replace("fileType=svg&", "")}
+          </Link>
+        </p>
       </div>
     </div>
   );
