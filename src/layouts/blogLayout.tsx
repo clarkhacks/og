@@ -1,6 +1,5 @@
 import React from "react";
 import { z } from "zod";
-import { DocsIllustration } from "../components/DocsIllustration";
 import { authors, getAuthor } from "./authors";
 import { ILayout } from "./types";
 import { GradientBackground, RLogo } from "./utils";
@@ -8,7 +7,10 @@ import { GradientBackground, RLogo } from "./utils";
 const blogLayoutConfig = z.object({
   Title: z.string(),
   Author: z.string(),
-  Theme: z.enum(["light", "dark"]).default("dark"),
+  Theme: z.preprocess(
+    v => v?.toString().toLowerCase(),
+    z.enum(["light", "dark"]).default("dark"),
+  ),
 });
 
 export type BlogLayoutConfig = z.infer<typeof blogLayoutConfig>;
