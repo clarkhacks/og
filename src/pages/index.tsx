@@ -186,7 +186,7 @@ export const Viewer: React.FC = () => {
 
 const buttonStyles = tw`
   flex items-center justify-center
-  px-2 py-1 w-32 h-8 rounded text-sm text-gray-600 bg-gray-300 font-medium
-  hover:bg-pink-500
+  px-2 py-1 w-32 h-8 rounded text-sm text-gray-600 bg-gray-100 font-medium
+  hover:bg-pink-100
   focus:outline-none focus:ring-2 focus:ring-pink-500
 `;

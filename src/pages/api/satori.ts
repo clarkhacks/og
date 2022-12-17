@@ -12,7 +12,10 @@ const handler: NextApiHandler = async (req, res) => {
   try {
     const { layoutName, fileType } = await imageReq.parseAsync(req.query);
 
-    const { layout, config } = await getLayoutAndConfig(layoutName, req.query);
+    const { layout, config } = await getLayoutAndConfig(
+      layoutName.toLowerCase(),
+      req.query,
+    );
     const svg = await renderLayoutToSVG({ layout, config });
 
     res.statusCode = 200;
