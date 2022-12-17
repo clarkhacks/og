@@ -20,9 +20,7 @@ const Home: NextPage = () => {
     <main tw="px-6 pb-20 max-w-6xl w-full mx-auto">
       <header tw="text-center mt-20 mb-10 space-y-6">
         <h1 tw="text-5xl font-bold">Railway OG Image Generator</h1>
-        <h2 tw="text-xl text-gray-600">
-          Dynamic open graph images for fun and profit
-        </h2>
+        <h2 tw="text-xl text-gray-600">Dynamic open graph images service</h2>
       </header>
 
       {/* We pull the state from local storage so need the app to be loaded in the browser */}
