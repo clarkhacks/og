@@ -14,7 +14,7 @@ export const useImageUrl = (fileType: FileType) => {
       ...layoutConfig,
     })) {
       if (value != null) {
-        searchParams.set(key, value);
+        searchParams.set(key, value as string);
       }
     }
 
