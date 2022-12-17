@@ -4,7 +4,7 @@
 
 Service that dynamically generates [Open Graph](https://ogp.me/) images for [Railway starters](https://railway.app/starters) that looks something like
 
-<img width="600" src="https://og.railway.app/api/image?fileType=png&layoutName=Starter&Theme=Dark&Name=BlitzJS" />
+<img width="600" src="https://og.railway.app/api/image?fileType=svg&layoutName=docs&Page=Open+Graph+Generator" />
 
 # ✨ How To Use
 
@@ -15,7 +15,7 @@ Use the generated image URL in the `<head>` of your HTML document as the og:imag
 
 <meta
   property="og:image"
-  content="https://og.railway.app/api/image?fileType=png&layoutName=Simple&Text=**Hello**+_World_"
+  content="https://og.railway.app/api/image?fileType=png&layoutName=Simple&Text=Hello+World"
 />
 ```
 
@@ -27,10 +27,9 @@ Images are generated through the `/api/image` route. When you hit this route the
 
 - Query params are parsed
 - Layout is looked up in list of layouts using the `layoutName` query param
-- `layout.getCSS` called with all query params
 - `layout.Component` is rendered with all query params as `config` prop
-- HTML page built, rendered with Puppeteer, and screenshot
-- Screenshot returned with a long cache max age
+- SVG is created from the component using [Satori](https://github.com/vercel/satori#jsx)
+- Optionally, a PNG is created from the SVG with [resvg-js](https://github.com/yisibl/resvg-js)
 
 ## Layouts
 
@@ -43,35 +42,46 @@ This service can generate images using multiple _layouts_. A layout is defined a
 For example, the "Simple" layout on [og.railway.app](https://og.railway.app) is defined as
 
 ```tsx
-import { GetCSSFn, ILayout, LayoutComponent } from "../types";
-import { gString, Markdown } from "./utils";
+import React from "react";
+import { z } from "zod";
+import { ILayout } from "./types";
 
-const getCSS: GetCSSFn = config => {
-  return `
-    body {
-      font-size: 200px;
-      color: white;
-      background: linear-gradient(to bottom right, tomato, deeppink);
-    }
-  `;
+const simpleLayoutConfig = z.object({
+  text: z.string(),
+});
+export type SimpleLayoutConfig = z.infer<typeof simpleLayoutConfig>;
+
+const Component: React.FC<{ config: SimpleLayoutConfig }> = ({ config }) => {
+  return (
+    <div
+      tw="flex items-center justify-center text-center px-4 w-full h-full text-8xl text-white font-bold"
+      style={{
+        background: "linear-gradient(to bottom right, tomato, deeppink)",
+      }}
+    >
+      {config.text}
+    </div>
+  );
 };
 
-const Component: LayoutComponent = ({ config }) => {
-  const text = gString(config, "Text");
-  return <h1>{text}</h1>;
-};
-
-export const simpleLayout: ILayout = {
-  name: "Simple",
-  properties: [{ name: "Text", type: "text", default: "**Hello** _World_" }],
-  getCSS,
+export const simpleLayout: ILayout<typeof simpleLayoutConfig> = {
+  name: "simple",
+  config: simpleLayoutConfig,
+  properties: [
+    {
+      type: "text",
+      name: "text",
+      default: "Hello, world!",
+      placeholder: "Text to display",
+    },
+  ],
   Component,
 };
 ```
 
 This will render as
 
-![image](https://user-images.githubusercontent.com/3044853/118061050-0868c300-b349-11eb-8ac1-0b0af7d0dc9a.png)
+<img width="600" src="https://user-images.githubusercontent.com/3044853/208225044-e6c4e496-039a-45bc-a310-834e041afdd0.png" />
 
 # 🚀 Development
 
@@ -89,11 +99,3 @@ yarn build
 # Start in production
 yarn start
 ```
-
-# 🙌 Acknowledgement
-
-Credit where credit is due. This started as a forked repo from [Vercel's OG image generator](https://github.com/vercel/og-image). The main differences are
-
-- Multiple configurable layouts
-- Content of image written in JSX (as opposed to a template string)
-- Headless Chrome configuration modified to deploy on Railway
