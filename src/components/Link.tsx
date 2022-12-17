@@ -6,6 +6,7 @@ export interface Props {
   href: string;
   external?: boolean;
   className?: string;
+  children?: React.ReactNode;
 }
 
 const isExternalLink = (href: string) =>

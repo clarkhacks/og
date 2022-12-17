@@ -8,7 +8,7 @@ const customColors = {
 };
 
 module.exports = {
-  purge: ["./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: "class", // 'media' or 'class'
   theme: {
     fontFamily: {
@@ -22,6 +22,10 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      colors: {
+        ...customColors,
+      },
+    },
   },
 };

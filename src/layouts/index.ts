@@ -35,14 +35,14 @@ export const getDefaultLayoutConfig = (layout: ILayout): ILayoutConfig => {
 
 export const getLayoutConfigFromQuery = async (
   layoutName: string,
-  query: Record<string, string | string[]>,
+  query: Record<string, string | string[] | undefined>,
 ): Promise<ILayoutConfig> => {
   const layout = getLayout(layoutName);
 
   const config: ILayoutConfig = getDefaultLayoutConfig(layout);
   for (const p of layout.properties) {
     if (query[p.name] != null) {
-      config[p.name] = query[p.name].toString();
+      config[p.name] = query[p.name]!.toString();
     }
   }
 
@@ -52,7 +52,7 @@ export const getLayoutConfigFromQuery = async (
 
 export const getLayoutAndConfig = async (
   layoutName: string,
-  query: Record<string, string | string[]>,
+  query: Record<string, string | string[] | undefined>,
 ): Promise<{ layout: ILayout; config: ILayoutConfig }> => {
   const layout = getLayout(layoutName);
   const config = await getLayoutConfigFromQuery(layoutName, query);

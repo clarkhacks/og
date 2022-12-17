@@ -1,20 +1,4 @@
-import { ILayoutConfig } from "./types";
-import marked from "marked";
 import React from "react";
-
-export const mdToHTML = (text: string): string => marked(text);
-
-export const Markdown: React.FC<{
-  children: string;
-  className?: string;
-  style?: React.CSSProperties;
-}> = ({ children, style, ...props }) => (
-  <div
-    className={`markdown ${props.className}`}
-    dangerouslySetInnerHTML={{ __html: mdToHTML(sanitizeHtml(children)) }}
-    style={style}
-  />
-);
 
 const entityMap: { [key: string]: string } = {
   "&": "&amp;",

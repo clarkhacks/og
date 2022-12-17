@@ -1,4 +1,3 @@
-import classnames from "classnames";
 import React from "react";
 import tw from "twin.macro";
 import { ChevronDown } from "react-feather";
@@ -38,7 +37,7 @@ export const Select = React.forwardRef<HTMLSelectElement, Props>(
           disabled={disabled}
           autoFocus={autoFocus}
           name={name}
-          className={classnames("select", { [`select-${name}`]: name != null })}
+          className="select"
           css={[
             tw`bg-transparent w-full h-9 appearance-none border rounded`,
             tw`py-1 pl-3 pr-8`,
