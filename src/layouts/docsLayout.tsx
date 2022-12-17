@@ -5,7 +5,7 @@ import { ILayout } from "./types";
 import { RLogo } from "./utils";
 
 const docsLayoutConfig = z.object({
-  text: z.string(),
+  Page: z.string(),
 });
 
 export type DocsLayoutConfig = z.infer<typeof docsLayoutConfig>;
@@ -47,7 +47,7 @@ const Component: React.FC<{ config: DocsLayoutConfig }> = ({ config }) => {
         style={{ maxWidth: 740, marginLeft: 96, marginBottom: 90 }}
       >
         <p tw="text-8xl text-white font-bold" style={{ lineHeight: 1.2 }}>
-          {config.text}
+          {config.Page}
         </p>
       </div>
 
@@ -76,7 +76,7 @@ export const docsLayout: ILayout<typeof docsLayoutConfig> = {
   properties: [
     {
       type: "text",
-      name: "text",
+      name: "Page",
       default: "Railway Documentation",
       placeholder: "Text to display",
     },
