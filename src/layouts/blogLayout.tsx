@@ -1,5 +1,6 @@
 import React from "react";
 import { z } from "zod";
+import { DocsIllustration } from "../components/DocsIllustration";
 import { authors, getAuthor } from "./authors";
 import { ILayout } from "./types";
 import { GradientBackground, RLogo } from "./utils";
@@ -52,11 +53,16 @@ const Component: React.FC<{ config: BlogLayoutConfig }> = ({ config }) => {
       </div>
 
       {/* railway logo */}
-      <RLogo
+      {/* <RLogo
         theme={config.Theme}
         tw="absolute"
         style={{ top: 88, left: 96, width: 88, height: 88 }}
-      />
+      /> */}
+
+      <RLogo tw="absolute" style={{ top: 106, right: 97 }} />
+      <div tw="absolute top-0 right-0 flex">
+        <DocsIllustration />
+      </div>
     </div>
   );
 };
