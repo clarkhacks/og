@@ -2,13 +2,13 @@ const colors = require("tailwindcss/colors");
 
 const customColors = {
   transparent: "transparent",
-  bg: "#f8f9fa",
+  bg: "#ffffff",
   fg: "#212529",
   accent: "#C049FF",
 };
 
 module.exports = {
-  purge: ["./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: "class", // 'media' or 'class'
   theme: {
     fontFamily: {
@@ -22,6 +22,10 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      colors: {
+        ...customColors,
+      },
+    },
   },
 };

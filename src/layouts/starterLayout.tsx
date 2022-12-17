@@ -1,103 +1,64 @@
-import { GetCSSFn, ILayout, LayoutComponent } from "../types";
-import { colourThemes, defaultTheme } from "./colours";
-import { getTheme, RLogo } from "./utils";
+import React from "react";
+import { z } from "zod";
+import { ILayout } from "./types";
+import { GradientBackground, RLogo } from "./utils";
 
-const getCSS: GetCSSFn = config => {
-  const theme = getTheme(config);
-  const colours = colourThemes[theme];
+const starterLayoutConfig = z.object({
+  Name: z.string().default(""),
+  URL: z.string().nullish(),
+  Icon: z.enum(["Show", "Hide"]).default("Show"),
+});
 
-  return `
-  .top {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    background-color: ${colours.bg};
-    color: ${colours.fg};
-    padding: 80px;
-  }
+export type BlogLayoutConfig = z.infer<typeof starterLayoutConfig>;
 
-    .rlogo {
-      position: absolute;
-      top: 60px;
-      left: 60px;
-    }
-
-    h1 {
-      margin: 0;
-      text-align: right;
-      font-size: 1.5em;
-      font-weight: 800;
-      max-width: 1600px;
-    }
-
-    .dicon-wrapper {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 80px;
-    }
-
-    .dicon {
-      width: 300px;
-      height: 300px;
-      border-radius: 2px;
-    }
-
-    .em {
-      color: ${colours.pink};
-    }
-
-    .url {
-      margin-top: 40px;
-      text-align: right;
-      font-size: 45px;
-      color: ${colours.gray};
-    }
-    `;
-};
-
-const Component: LayoutComponent = ({ config }) => {
-  const theme = getTheme(config);
-  const name = config.Name;
-  const url = config.URL;
-  const iconURL = `https://devicons.railway.app/${name}?variant=${
-    theme === "light" ? "dark" : "light"
-  }`;
+const Component: React.FC<{ config: BlogLayoutConfig }> = ({ config }) => {
+  const iconName = config.Name.trim() === "" ? "Railway" : config.Name;
+  const iconURL = `https://devicons.railway.app/${iconName}?variant=light`;
   const hideIcon = config.Icon === "Hide";
 
-  console.log({ iconURL });
-
   return (
-    <div className="top">
-      <RLogo config={config} />
+    <div tw="relative flex justify-start items-end w-full h-full text-white">
+      {/* gradient layers */}
+      <GradientBackground />
 
-      <div className="content">
+      {/* main text */}
+      <div
+        tw="flex flex-col text-left font-bold"
+        style={{ maxWidth: 800, marginLeft: 96, marginBottom: 80 }}
+      >
         {!hideIcon && (
-          <div className="dicon-wrapper">
-            <img className="dicon" src={iconURL} />
-          </div>
+          <img tw="mb-10" style={{ width: 108, height: 108 }} src={iconURL} />
         )}
 
-        <h1>
-          Deploy <span className="em">{name}</span> on Railway
-        </h1>
-
-        {url && <div className="url">{url}</div>}
+        <p tw="flex flex-wrap text-7xl" style={{ lineHeight: 1.5 }}>
+          Deploy{" "}
+          <span tw="mx-3" style={{ color: "#C049FF" }}>
+            {config.Name}
+          </span>
+          <br />
+          on Railway
+        </p>
       </div>
+
+      {config.URL && (
+        <div tw="absolute right-20 bottom-8 text-lg opacity-40">
+          {config.URL}
+        </div>
+      )}
+
+      {/* railway logo */}
+      <RLogo
+        tw="absolute"
+        style={{ top: 66, right: 96, width: 60, height: 60 }}
+      />
     </div>
   );
 };
 
-export const starterLayout: ILayout = {
-  name: "Starter",
+export const starterLayout: ILayout<typeof starterLayoutConfig> = {
+  name: "starter",
+  config: starterLayoutConfig,
   properties: [
-    {
-      name: "Theme",
-      type: "select",
-      options: ["Light", "Dark"],
-      default: defaultTheme,
-    },
     {
       name: "Name",
       type: "text",
@@ -116,6 +77,5 @@ export const starterLayout: ILayout = {
       default: "Show",
     },
   ],
-  getCSS,
   Component,
 };

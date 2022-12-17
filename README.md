@@ -1,6 +1,6 @@
 # Railway OG Image Generator
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https%3A%2F%2Fgithub.com%2Frailwayapp%2Fog-generator)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/xWRIhd)
 
 Service that dynamically generates [Open Graph](https://ogp.me/) images for [Railway starters](https://railway.app/starters) that looks something like
 
@@ -11,7 +11,12 @@ Service that dynamically generates [Open Graph](https://ogp.me/) images for [Rai
 Use the generated image URL in the `<head>` of your HTML document as the og:image meta property
 
 ```html
-  <meta property="og:image" content="https://og.railway.app/api/image?fileType=png&layoutName=Simple&Text=**Hello**+_World_" />
+
+
+<meta
+  property="og:image"
+  content="https://og.railway.app/api/image?fileType=png&layoutName=Simple&Text=**Hello**+_World_"
+/>
 ```
 
 Whenever this image is requested (e.g. in link previews) the image will be generated on demand.
@@ -19,6 +24,7 @@ Whenever this image is requested (e.g. in link previews) the image will be gener
 # 🧐 How It Works
 
 Images are generated through the `/api/image` route. When you hit this route the following happens
+
 - Query params are parsed
 - Layout is looked up in list of layouts using the `layoutName` query param
 - `layout.getCSS` called with all query params
@@ -29,6 +35,7 @@ Images are generated through the `/api/image` route. When you hit this route the
 ## Layouts
 
 This service can generate images using multiple _layouts_. A layout is defined as a
+
 - Collection of properties that are user configurable. The UI for these properties is auto genearted
 - Function that takes in layout config and returns CSS needed to render
 - A React component that takes in layout config as a prop
@@ -90,4 +97,3 @@ Credit where credit is due. This started as a forked repo from [Vercel's OG imag
 - Multiple configurable layouts
 - Content of image written in JSX (as opposed to a template string)
 - Headless Chrome configuration modified to deploy on Railway
-

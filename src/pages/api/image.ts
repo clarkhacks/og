@@ -1,30 +1,45 @@
 import { NextApiHandler } from "next";
-import { getScreenshot } from "./_lib/chromium";
-import { parseRequest } from "./_lib/parser";
-import { getHtml } from "./_lib/template";
+import { getLayoutAndConfig } from "../../layouts";
+import { z } from "zod";
+import { renderLayoutToSVG, renderSVGToPNG } from "../../og";
 
-const isDev = !process.env.RAILWAY_STATIC_URL;
+const imageReq = z.object({
+  layoutName: z.string(),
+  fileType: z.enum(["svg", "png"]).nullish(),
+});
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    const config = parseRequest(req);
-    console.log("\n\n--- /api/image");
-    console.log("CONFIG", config);
+    const { layoutName, fileType } = await imageReq.parseAsync(req.query);
 
-    const html = getHtml(config);
-    const { fileType } = config;
-    const file = await getScreenshot(html, fileType, isDev);
+    const { layout, config } = await getLayoutAndConfig(
+      layoutName.toLowerCase(),
+      req.query,
+    );
+    const svg = await renderLayoutToSVG({ layout, config });
+
     res.statusCode = 200;
-    res.setHeader("Content-Type", `image/${fileType}`);
+    res.setHeader(
+      "Content-Type",
+      fileType === "svg" ? "image/svg+xml" : `image/${fileType}`,
+    );
     res.setHeader(
       "Cache-Control",
       `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`,
     );
-    res.end(file);
+
+    if (fileType === "png") {
+      const png = await renderSVGToPNG(svg);
+      res.end(png);
+    } else {
+      res.end(svg);
+    }
   } catch (e) {
     res.statusCode = 500;
     res.setHeader("Content-Type", "text/html");
-    res.end("<h1>Internal Error</h1><p>Sorry, there was a problem</p>");
+    res.end(
+      `<h1>Internal Error</h1><pre><code>${(e as any).message}</code></pre>`,
+    );
     console.error(e);
   }
 };

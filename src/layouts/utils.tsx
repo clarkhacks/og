@@ -1,58 +1,24 @@
-import twemoji from "twemoji";
-import marked from "marked";
-import { ILayoutConfig } from "../types";
 import React from "react";
-import { defaultTheme } from "./colours";
-import { sanitizeHtml } from "../pages/api/_lib/sanitizer";
-import { getAuthor } from "./authors";
 
-export const emojify = (text: string): string =>
-  twemoji.parse(text, {
-    ext: ".svg",
-  });
-
-export const mdToHTML = (text: string): string => marked(text);
-
-export const gString = (
-  layoutConfig: ILayoutConfig,
-  name: string,
-  defaultValue: string = "",
-): string => {
-  const value = layoutConfig[name] ?? defaultValue;
-  return Array.isArray(value) ? value.join(", ") : value;
+const entityMap: { [key: string]: string } = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;",
+  "/": "&#x2F;",
 };
 
-export const getTheme = (config: ILayoutConfig) => {
-  return (config.Theme ?? defaultTheme).toLowerCase();
-};
-
-export const Emoji: React.FC<{ children: string; className?: string }> = ({
-  children,
-  ...props
-}) => (
-  <div
-    className={`emoji ${props.className}`}
-    dangerouslySetInnerHTML={{ __html: emojify(children) }}
-  />
-);
-
-export const Markdown: React.FC<{
-  children: string;
-  className?: string;
-  style?: React.CSSProperties;
-}> = ({ children, style, ...props }) => (
-  <div
-    className={`markdown ${props.className}`}
-    dangerouslySetInnerHTML={{ __html: mdToHTML(sanitizeHtml(children)) }}
-    style={style}
-  />
-);
+export function sanitizeHtml(html: string) {
+  return String(html)
+    .replace(/[&<>"'\/]/g, key => entityMap[key])
+    .replace("\\n", "<br />");
+}
 
 export const RLogo: React.FC<{
-  config: ILayoutConfig;
+  theme?: "light" | "dark";
   style?: React.CSSProperties;
-}> = ({ config, style }) => {
-  const theme = gString(config, "Theme", defaultTheme).toLowerCase();
+}> = ({ theme = "dark", style, ...props }) => {
   const rlogo =
     theme === "dark"
       ? "https://railway.app/brand/logo-light.svg"
@@ -62,21 +28,65 @@ export const RLogo: React.FC<{
     <img
       src={rlogo}
       className="rlogo"
-      style={{ width: 200, height: 200, ...style }}
+      style={{ width: 96, height: 96, ...style }}
+      {...props}
     />
   );
 };
 
-export const AuthorImage: React.FC<{
-  name: string;
-  style?: React.CSSProperties;
-}> = ({ name, style }) => {
-  const author = getAuthor(name);
+export const GradientBackground: React.FC<{ theme?: "light" | "dark" }> = ({
+  theme = "dark",
+}) => {
+  if (theme == "dark") {
+    return (
+      <div
+        tw="absolute inset-0 flex justify-start items-end w-full h-full"
+        style={{ background: `#13111C` }}
+      >
+        <div
+          tw="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(327.21deg, rgba(33, 0, 75, 0.35) 3.65%, rgba(60, 0, 136, 0) 40.32%)",
+          }}
+        />
+        <div
+          tw="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(245.93deg, rgba(209, 21, 111, 0.26) 0%, rgba(209, 25, 80, 0) 36.63%)",
+          }}
+        />
+        <div
+          tw="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(147.6deg, rgba(58, 19, 255, 0) 29.79%, rgba(98, 19, 255, 0.1) 85.72%)",
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
-    <img
-      src={author.image}
-      alt={author.name}
-      style={{ borderRadius: "100%", width: 100, height: 100, ...style }}
-    />
+    <div
+      tw="absolute inset-0 flex justify-start items-end w-full h-full"
+      style={{ background: `#ffffff` }}
+    >
+      <div
+        tw="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(71.9deg, rgba(243, 91, 164, 0.3) -15.4%, rgba(209, 25, 80, 0) 46.76%)",
+        }}
+      />
+      <div
+        tw="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(149.36deg, rgba(190, 178, 251, 0) 37.9%, rgba(164, 94, 252, 0.19) 81.22%)",
+        }}
+      />
+    </div>
   );
 };

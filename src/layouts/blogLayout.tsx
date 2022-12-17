@@ -1,78 +1,86 @@
-import { GetCSSFn, ILayout, LayoutComponent } from "../types";
-import { authors } from "./authors";
-import { colourThemes, defaultTheme } from "./colours";
-import { AuthorImage, getTheme, Markdown, RLogo } from "./utils";
+import React from "react";
+import { z } from "zod";
+import { DocsIllustration } from "../components/DocsIllustration";
+import { authors, getAuthor } from "./authors";
+import { ILayout } from "./types";
+import { GradientBackground, RLogo } from "./utils";
 
-const getCSS: GetCSSFn = config => {
-  const theme = getTheme(config);
-  const colours = colourThemes[theme];
+const blogLayoutConfig = z.object({
+  Title: z.string(),
+  Author: z.string(),
+  Theme: z.enum(["light", "dark"]).default("dark"),
+});
 
-  return `
-    body {
-      color: ${colours.fg};
-      background: ${colours.bg};
-    }
+export type BlogLayoutConfig = z.infer<typeof blogLayoutConfig>;
 
-    h1 {
-      font-size: 100px;
-      margin: 75px 0;
-    }
-
-    h2 {
-      font-size: 50px;
-      margin-top: 25px;
-    }
-  `;
-};
-
-const Component: LayoutComponent = ({ config }) => {
-  const title = config.Title;
-  const author = config.Author;
+const Component: React.FC<{ config: BlogLayoutConfig }> = ({ config }) => {
+  const author = getAuthor(config.Author);
+  const length = config.Title.length;
 
   return (
     <div
+      tw="relative flex justify-start items-end w-full h-full"
       style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "space-between",
+        color: config.Theme === "light" ? "black" : `white`,
       }}
     >
-      <RLogo config={config} style={{ height: 150, width: 150 }} />
-      <h1>
-        <Markdown>{title}</Markdown>
-      </h1>
+      {/* gradient layers */}
+      <GradientBackground theme={config.Theme} />
 
-      <AuthorImage name={author} />
-      <h2 style={{ display: "flex" }}>
-        <Markdown style={{ fontWeight: 400 }}>Written by&nbsp;</Markdown>
-        <Markdown>{author}</Markdown>
-      </h2>
+      {/* main text */}
+      <div
+        tw="flex flex-col text-left"
+        style={{ maxWidth: 740, marginLeft: 96, marginBottom: 80 }}
+      >
+        <p
+          tw="font-bold"
+          style={{ lineHeight: 1.4, fontSize: length > 50 ? 48 : 60 }}
+        >
+          {config.Title}
+        </p>
+
+        <div tw="flex items-center mt-6">
+          <img
+            src={author.image}
+            alt={author.name}
+            style={{ borderRadius: "100%", width: 56, height: 56 }}
+          />
+          <p tw="text-3xl opacity-60 ml-7">{config.Author}</p>
+        </div>
+      </div>
+
+      {/* railway logo */}
+      <RLogo
+        theme={config.Theme}
+        tw="absolute"
+        style={{ top: 88, left: 96, width: 88, height: 88 }}
+      />
     </div>
   );
 };
 
-export const blogLayout: ILayout = {
-  name: "Blog",
+export const blogLayout: ILayout<typeof blogLayoutConfig> = {
+  name: "blog",
+  config: blogLayoutConfig,
   properties: [
     {
-      name: "Theme",
-      type: "select",
-      options: ["Light", "Dark"],
-      default: defaultTheme,
-    },
-    {
-      name: "Title",
       type: "text",
-      default: "Self-hosted website analytics",
-      placeholder: "Big text",
+      name: "Title",
+      default: "Why you should use Config as Code",
+      placeholder: "Blog post title",
     },
     {
-      name: "Author",
       type: "select",
+      name: "Author",
+      default: "Jake Runzer",
       options: authors.map(author => author.name),
     },
+    {
+      type: "select",
+      name: "Theme",
+      default: "dark",
+      options: ["light", "dark"],
+    },
   ],
-  getCSS,
   Component,
 };
