@@ -59,7 +59,11 @@ const Component: React.FC<{ config: BlogLayoutConfig }> = ({ config }) => {
         style={{ top: 88, left: 96, width: 88, height: 88 }}
       /> */}
 
-      <RLogo tw="absolute" style={{ top: 106, right: 97 }} />
+      <RLogo
+        tw="absolute"
+        style={{ top: 106, right: 97 }}
+        theme={config.Theme}
+      />
       <div tw="absolute top-0 right-0 flex">
         <DocsIllustration />
       </div>
