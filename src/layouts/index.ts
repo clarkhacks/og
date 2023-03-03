@@ -2,6 +2,7 @@ import { blogLayout } from "./blogLayout";
 import { docsLayout } from "./docsLayout";
 import { simpleLayout } from "./simpleLayout";
 import { starterLayout } from "./starterLayout";
+import { templateLayout } from "./templateLayout";
 import { ILayout, ILayoutConfig } from "./types";
 
 export const layouts: ILayout<any>[] = [
@@ -9,6 +10,7 @@ export const layouts: ILayout<any>[] = [
   blogLayout,
   starterLayout,
   simpleLayout,
+  templateLayout,
 ];
 
 export const getLayout = (layoutName: string): ILayout => {
