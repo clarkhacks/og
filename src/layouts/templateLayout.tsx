@@ -10,7 +10,7 @@ const templateLayoutConfig = z.object({
   Description: z.string(),
   AuthorImage: z.string().nullish(),
   AuthorName: z.string(),
-  Category: z.string(),
+  Category: z.string().nullish(),
 });
 
 type TemplateLayoutConfig = z.infer<typeof templateLayoutConfig>;
@@ -69,25 +69,27 @@ const Component: React.FC<{ config: TemplateLayoutConfig }> = ({ config }) => {
               <p tw="ml-5 text-gray-500 text-[28px]">{AuthorName}</p>
             </div>
           )}
-          <div tw="flex items-center">
-            <svg
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M36.6668 31.6667C36.6668 32.5507 36.3156 33.3986 35.6905 34.0237C35.0654 34.6488 34.2176 35 33.3335 35H6.66683C5.78277 35 4.93493 34.6488 4.30981 34.0237C3.68469 33.3986 3.3335 32.5507 3.3335 31.6667V8.33333C3.3335 7.44928 3.68469 6.60143 4.30981 5.97631C4.93493 5.35119 5.78277 5 6.66683 5H15.0002L18.3335 10H33.3335C34.2176 10 35.0654 10.3512 35.6905 10.9763C36.3156 11.6014 36.6668 12.4493 36.6668 13.3333V31.6667Z"
-                stroke="#868593"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+          {Category && (
+            <div tw="flex items-center">
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M36.6668 31.6667C36.6668 32.5507 36.3156 33.3986 35.6905 34.0237C35.0654 34.6488 34.2176 35 33.3335 35H6.66683C5.78277 35 4.93493 34.6488 4.30981 34.0237C3.68469 33.3986 3.3335 32.5507 3.3335 31.6667V8.33333C3.3335 7.44928 3.68469 6.60143 4.30981 5.97631C4.93493 5.35119 5.78277 5 6.66683 5H15.0002L18.3335 10H33.3335C34.2176 10 35.0654 10.3512 35.6905 10.9763C36.3156 11.6014 36.6668 12.4493 36.6668 13.3333V31.6667Z"
+                  stroke="#868593"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
 
-            <p tw="ml-5 text-gray-500 text-[28px]">{Category ?? "Other"}</p>
-          </div>
+              <p tw="ml-5 text-gray-500 text-[28px]">{Category}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
