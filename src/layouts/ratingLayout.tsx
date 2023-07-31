@@ -4,14 +4,14 @@ import { DocsIllustration } from "../components/DocsIllustration";
 import { ILayout } from "./types";
 import { RLogo } from "./utils";
 
-const docsLayoutConfig = z.object({
+const ratingLayoutConfig = z.object({
   Page: z.string(),
   Url: z.string().nullish(),
 });
 
-export type DocsLayoutConfig = z.infer<typeof docsLayoutConfig>;
+export type ratingLayoutConfig = z.infer<typeof ratingLayoutConfig>;
 
-const Component: React.FC<{ config: DocsLayoutConfig }> = ({ config }) => {
+const Component: React.FC<{ config: ratingLayoutConfig }> = ({ config }) => {
   const url =
     (config.Url ?? "").trim() === ""
       ? "docs.railway.app"
@@ -76,9 +76,9 @@ const Component: React.FC<{ config: DocsLayoutConfig }> = ({ config }) => {
   );
 };
 
-export const docsLayout: ILayout<typeof docsLayoutConfig> = {
-  name: "docs",
-  config: docsLayoutConfig,
+export const ratingLayout: ILayout<typeof ratingLayoutConfig> = {
+  name: "rating",
+  config: ratingLayoutConfig,
   properties: [
     {
       type: "text",

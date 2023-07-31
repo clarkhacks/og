@@ -21,8 +21,8 @@ export const RLogo: React.FC<{
 }> = ({ theme = "dark", style, ...props }) => {
   const rlogo =
     theme === "dark"
-      ? "https://railway.app/brand/logo-light.svg"
-      : "https://railway.app/brand/logo-dark.svg";
+      ? "https://www.optimalpros.com/images/Copy-of-Optimal.png"
+      : "https://www.optimalpros.com/images/Copy-of-Optimal.png";
 
   return (
     <img
